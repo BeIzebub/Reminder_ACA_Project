@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:id="@+id/menu_top"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/reminders"
+            android:icon="@android:drawable/ic_menu_send"
+            android:title="Reminders" />
+        <item
+            android:id="@+id/call"
+            android:icon="@android:drawable/ic_menu_call"
+            android:title="Call" />
+        <item
+            android:id="@+id/sms"
+            android:icon="@android:drawable/ic_menu_edit"
+            android:title="Text message" />
+    </group>
+
+    <group
+        android:id="@+id/social"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/facebook"
+            android:icon="@android:drawable/ic_menu_share"
+            android:title="Facebook" />
+        <item
+            android:id="@+id/gMail"
+            android:icon="@android:drawable/ic_menu_send"
+            android:title="Gmail" />
+        <item
+            android:id="@+id/vk"
+            android:icon="@android:drawable/ic_menu_send"
+            android:title="VK" />
+    </group>
+
+    <group
+        android:id="@+id/sets"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/history"
+            android:icon="@android:drawable/ic_menu_recent_history"
+            android:title="History" />
+        <item
+            android:id="@+id/settings"
+            android:icon="@android:drawable/ic_menu_manage"
+            android:title="Settings" />
+    </group>
+
+    <group
+        android:id="@+id/menu_bottom"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/help"
+            android:icon="@android:drawable/ic_menu_help"
+            android:title="Help" />
+    </group>
+
+</menu>
