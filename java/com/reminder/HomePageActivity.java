@@ -1,4 +1,5 @@
 package com.reminder;
+
 import android.os.Bundle;
 
 public class HomePageActivity extends BaseActivity {
