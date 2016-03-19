@@ -13,6 +13,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.reminder.mobile_activities.CallActivity;
+import com.reminder.mobile_activities.SmsActivity;
+import com.reminder.social_activities.GooglePlusActivity;
+import com.reminder.social_activities.MyFacebookActivity;
+import com.reminder.social_activities.MyTwitterActivity;
+
 public class BaseActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener {
 
@@ -104,11 +110,23 @@ public class BaseActivity extends AppCompatActivity implements
                 return true;
 
             case R.id.call:
-//                startActivity(new Intent(this, OtherActivity.class));
+                startActivity(new Intent(this, CallActivity.class));
                 return true;
 
             case R.id.sms :
-//                startActivity(new Intent(this, NoHamburger.class));
+                startActivity(new Intent(this, SmsActivity.class));
+                return true;
+
+            case R.id.facebook:
+                startActivity(new Intent(this, MyFacebookActivity.class));
+                return true;
+
+            case R.id.twitter:
+                startActivity(new Intent(this, MyTwitterActivity.class));
+                return true;
+
+            case R.id.googlePlus :
+                startActivity(new Intent(this, GooglePlusActivity.class));
                 return true;
 
             case R.id.settings :

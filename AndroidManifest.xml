@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.reminder">
 
@@ -17,25 +18,27 @@
             </intent-filter>
         </activity>
         <activity android:name=".BaseActivity" />
-
-        <activity android:name="com.facebook.FacebookActivity"
-            android:configChanges=
-                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:label="@string/app_name" />
-
-        <activity android:name=".Settings">
-
-        </activity>
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity android:name=".Settings" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <provider android:authorities="com.facebook.app.FacebookContentProvider702061733267340"
+        <provider
             android:name="com.facebook.FacebookContentProvider"
-            android:exported="true"/>
+            android:authorities="com.facebook.app.FacebookContentProvider702061733267340"
+            android:exported="true" />
 
+        <activity android:name=".social_activities.MyFacebookActivity" />
+        <activity android:name=".mobile_activities.SmsActivity" />
+        <activity android:name=".social_activities.MyTwitterActivity" />
+        <activity android:name=".social_activities.GooglePlusActivity" />
+        <activity android:name=".mobile_activities.CallActivity"></activity>
     </application>
 
 </manifest>
