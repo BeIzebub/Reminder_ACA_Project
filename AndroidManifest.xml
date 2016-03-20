@@ -3,6 +3,7 @@
     package="com.reminder">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:allowBackup="true"
@@ -39,6 +40,12 @@
         <activity android:name=".social_activities.MyTwitterActivity" />
         <activity android:name=".social_activities.GooglePlusActivity" />
         <activity android:name=".mobile_activities.CallActivity"></activity>
+
+        <receiver android:name=".mobile_activities.services.CallReceiver" />
+
+        <service android:name=".mobile_activities.services.CallService" />
+
+        <activity android:name=".mobile_activities.services.NotifyActivityHandler"></activity>
     </application>
 
 </manifest>
