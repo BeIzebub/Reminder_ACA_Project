@@ -1,0 +1,41 @@
+package com.reminder.mobile_activities.services;
+
+import android.app.IntentService;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.Intent;
+import android.telephony.SmsManager;
+
+import com.reminder.R;
+
+/**
+ * Created by Gor on 3/21/2016.
+ */
+public class SMSService extends IntentService {
+    private String phone;
+    private String text;
+    public SMSService() {
+        super(SMSService.class.getName());
+    }
+
+    @Override
+    protected void onHandleIntent(Intent intent) {
+        phone = (String) intent.getExtras().get("phone");
+        text = (String) intent.getExtras().get("text");
+        SmsManager manager = SmsManager.getDefault();
+        manager.sendTextMessage(phone, null, text, null, null);
+        createSMSReceiveNotification(phone);
+
+    }
+    public void createSMSReceiveNotification(String s) {
+        Notification notif = new Notification.Builder(this)
+                .setContentTitle("SMS successful sent")
+                .setContentText("Your SMS to " + s + "was sent successfully")
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .build();
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notif.flags |= Notification.FLAG_AUTO_CANCEL;
+
+        notificationManager.notify(0, notif);
+    }
+}
