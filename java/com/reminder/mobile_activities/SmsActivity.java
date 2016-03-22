@@ -93,26 +93,18 @@ public class SmsActivity extends BaseActivity {
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 phone = edit.getText().toString();
                 text = edit2.getText().toString();
-
                 Intent intent = new Intent(SmsActivity.this, SMSReceiver.class);
-
                 startService(intent);
-
                 Toast.makeText(getApplicationContext(), "SMS Scheduled", Toast.LENGTH_SHORT).show();
-
                 Intent myIntent = new Intent(getApplicationContext(), SMSReceiver.class);
                 myIntent.putExtra("phone", phone);
                 myIntent.putExtra("text", text);
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),  0, myIntent, 0);
-
                 AlarmManager alarmManager = (AlarmManager)getApplication().getSystemService(Context.ALARM_SERVICE);
                 alarmManager.setExact(AlarmManager.RTC_WAKEUP, newCalendar.getTimeInMillis(), pendingIntent);
-
             }
         });
     }
-
 }

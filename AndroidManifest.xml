@@ -44,9 +44,10 @@
         <activity android:name=".mobile_activities.CallActivity"></activity>
 
         <receiver android:name=".mobile_activities.services.CallReceiver" />
-
         <service android:name=".mobile_activities.services.CallService" />
 
+        <receiver android:name=".mobile_activities.services.SMSReceiver"/>
+        <service android:name=".mobile_activities.services.SMSService"/>
         <activity android:name=".mobile_activities.services.NotifyActivityHandler"></activity>
     </application>
 

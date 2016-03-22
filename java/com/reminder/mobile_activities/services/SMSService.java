@@ -25,7 +25,6 @@ public class SMSService extends IntentService {
         SmsManager manager = SmsManager.getDefault();
         manager.sendTextMessage(phone, null, text, null, null);
         createSMSReceiveNotification(phone);
-
     }
     public void createSMSReceiveNotification(String s) {
         Notification notif = new Notification.Builder(this)
@@ -33,9 +32,9 @@ public class SMSService extends IntentService {
                 .setContentText("Your SMS to " + s + "was sent successfully")
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .build();
+
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         notif.flags |= Notification.FLAG_AUTO_CANCEL;
-
         notificationManager.notify(0, notif);
     }
 }
