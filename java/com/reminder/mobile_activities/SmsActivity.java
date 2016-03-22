@@ -47,7 +47,7 @@ public class SmsActivity extends BaseActivity {
 
 
     public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add(0, R.menu.menu_for_sms, 0, "send")
+        menu.add(0, R.menu.menu_for_sms, 0, "Schedule SMS")
                 .setIcon(android.R.drawable.ic_menu_send)
                 .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                     @Override

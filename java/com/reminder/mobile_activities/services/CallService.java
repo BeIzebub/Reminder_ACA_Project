@@ -42,7 +42,7 @@ public class CallService extends IntentService {
                 .setContentText("You scheduled call to " + s)
                 .setContentIntent(pendingIntent)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .addAction(R.mipmap.ic_launcher, "Call", pendingIntent)
+                .addAction(android.R.drawable.sym_action_call, "Call", pendingIntent)
                 .build();
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         noti.flags |= Notification.FLAG_AUTO_CANCEL;
