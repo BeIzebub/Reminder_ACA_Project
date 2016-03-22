@@ -131,6 +131,7 @@ public class SmsActivity extends BaseActivity {
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(data != null){
         uriContact = data.getData();
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
@@ -160,7 +161,7 @@ public class SmsActivity extends BaseActivity {
                     }
                     break;
             }
-        }
+        }}
     }
 
     public void schedule() {
@@ -185,7 +186,8 @@ public class SmsActivity extends BaseActivity {
                     if(! commentEdit.getText().toString().matches("")) {
                         myIntent.putExtra("comment", commentEdit.getText().toString());
                     }
-                    PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, myIntent, 0);
+                    int id = (int) (System.currentTimeMillis()/1000);
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), id, myIntent, PendingIntent.FLAG_ONE_SHOT);
                     AlarmManager alarmManager = (AlarmManager) getApplication().getSystemService(Context.ALARM_SERVICE);
                     alarmManager.setExact(AlarmManager.RTC_WAKEUP, newCalendar.getTimeInMillis(), pendingIntent);
                 }

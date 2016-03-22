@@ -31,7 +31,7 @@ public class SMSService extends IntentService {
     public void createSMSReceiveNotification(String s) {
         Notification notif = new Notification.Builder(this)
                 .setContentTitle("SMS successful sent")
-                .setContentText("Your SMS to " + s + "was sent successfully: " + comment)
+                .setContentText("Your SMS to " + s + " was sent successfully: " + comment)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .build();
 
