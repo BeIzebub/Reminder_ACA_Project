@@ -13,6 +13,7 @@ public class SMSReceiver extends BroadcastReceiver {
         Intent i = new Intent(context, SMSService.class);
         i.putExtra("phone", intent.getExtras().getString("phone"));
         i.putExtra("text", intent.getExtras().getString("text"));
+        i.putExtra("comment", intent.getExtras().getString("comment"));
         context.startService(i);
     }
 }

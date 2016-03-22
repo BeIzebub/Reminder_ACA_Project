@@ -14,6 +14,7 @@ import com.reminder.R;
 public class SMSService extends IntentService {
     private String phone;
     private String text;
+    private String comment;
     public SMSService() {
         super(SMSService.class.getName());
     }
@@ -22,6 +23,7 @@ public class SMSService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         phone = (String) intent.getExtras().get("phone");
         text = (String) intent.getExtras().get("text");
+        comment = (String) intent.getExtras().get("comment");
         SmsManager manager = SmsManager.getDefault();
         manager.sendTextMessage(phone, null, text, null, null);
         createSMSReceiveNotification(phone);
@@ -29,12 +31,14 @@ public class SMSService extends IntentService {
     public void createSMSReceiveNotification(String s) {
         Notification notif = new Notification.Builder(this)
                 .setContentTitle("SMS successful sent")
-                .setContentText("Your SMS to " + s + "was sent successfully")
+                .setContentText("Your SMS to " + s + "was sent successfully: " + comment)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .build();
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         notif.flags |= Notification.FLAG_AUTO_CANCEL;
+        notif.defaults |= Notification.DEFAULT_SOUND;
+        notif.defaults |= Notification.DEFAULT_VIBRATE;
         notificationManager.notify(0, notif);
     }
 }
