@@ -28,7 +28,6 @@ public class NotifyActivityHandler extends Activity {
             callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(callIntent);
         }
-
         finish();
     }
 }
