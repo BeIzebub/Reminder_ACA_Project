@@ -6,6 +6,7 @@ package com.reminder.DAO.objects;
  */
 public class Reminder {
     protected int id;
+    protected String name;
     protected long timeInMillis;
     protected String comment;
 
@@ -13,10 +14,25 @@ public class Reminder {
 
     }
 
-    public Reminder(int id, long time, String comment) {
-        this.id = id;
+    public Reminder(String name, String comment, long time) {
+        this.name = name;
         this.timeInMillis = time;
         this.comment = comment;
+    }
+
+    public Reminder(int id,String name, String comment, long time) {
+        this.id = id;
+        this.name = name;
+        this.timeInMillis = time;
+        this.comment = comment;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public long getTimeInMillis() {

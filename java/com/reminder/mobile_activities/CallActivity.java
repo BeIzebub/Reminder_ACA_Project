@@ -7,6 +7,7 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -16,6 +17,8 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.reminder.BaseActivity;
+import com.reminder.DAO.RemindersDB;
+import com.reminder.DAO.objects.CallReminder;
 import com.reminder.R;
 import com.reminder.mobile_activities.services.CallReceiver;
 
@@ -23,16 +26,19 @@ import java.util.Calendar;
 
 public class CallActivity extends BaseActivity {
 
-    private EditText phone;
+    private EditText name, phone;
     private TextView date, time;
     private Calendar selectedCalendar, currentCalendar;
     private int selectedDay, selectedMonth, selectedYear, selectedHour, selectedMinute;
+    private RemindersDB db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_call);
         setTitle("Call");
+        db = RemindersDB.getInstance(this);
         Button call = (Button) findViewById(R.id.callBtn);
+        name = (EditText) findViewById(R.id.editText3);
         phone = (EditText) findViewById(R.id.number);
         date = (TextView) findViewById(R.id.callDate);
         time = (TextView) findViewById(R.id.callTime);
@@ -46,7 +52,7 @@ public class CallActivity extends BaseActivity {
         selectedMinute = selectedCalendar.get(Calendar.MINUTE);
 
         date.setText(selectedDay + "/" + selectedMonth + "/" + selectedYear);
-        time.setText(selectedHour + ":" + selectedMinute);
+        time.setText(selectedHour + ":" + String.format("%02d\n", selectedMinute));
 
         call.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,10 +60,19 @@ public class CallActivity extends BaseActivity {
                 if (selectedCalendar.getTimeInMillis() < currentCalendar.getTimeInMillis())
                     Toast.makeText(CallActivity.this, "Time must be future", Toast.LENGTH_SHORT).show();
                 else {
-                    if (phone.getText().toString().equals(""))
+                    boolean normal = true;
+                    if (phone.getText().toString().equals("")) {
                         phone.setError("Input receiver's number");
-                    else {
-                        run();
+                        normal = false;
+                    }
+                    if (name.getText().toString().equals("")) {
+                        name.setError("Input name");
+                        normal = false;
+                    }
+                    if (normal) {
+                     //   run();
+                        CallReminder r = new CallReminder(name.getText().toString(),"com", selectedCalendar.getTimeInMillis(),  phone.getText().toString());
+                        db.addCallReminder(r);
                         Toast.makeText(CallActivity.this, "Call scheduled", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -91,7 +106,7 @@ public class CallActivity extends BaseActivity {
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         selectedHour = hourOfDay;
                         selectedMinute = minute;
-                        time.setText(selectedHour + ":" + selectedMinute);
+                        time.setText(selectedHour + ":" + String.format("%02d\n", selectedMinute));
                         selectedCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                         selectedCalendar.set(Calendar.MINUTE, minute);
                     }

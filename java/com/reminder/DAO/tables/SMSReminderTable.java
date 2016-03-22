@@ -12,5 +12,5 @@ public class SMSReminderTable {
     public static final String CREATE_TABLE = "create table " + TABLE_NAME +
             "(" + COLUMN_ID + " integer primary key, "
             + COLUMN_RECEIVER + " text not null, "
-            + COLUMN_TEXT + " text not null, " + ");";
+            + COLUMN_TEXT + " text not null" + ");";
 }

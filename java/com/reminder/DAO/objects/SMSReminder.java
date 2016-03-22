@@ -11,8 +11,14 @@ public class SMSReminder extends Reminder {
         super();
     }
 
-    public SMSReminder(int id, long time, String comment, String receiver, String text) {
-        super(id, time, comment);
+    public SMSReminder(int id,String name, String comment, long time, String receiver, String text) {
+        super(id,name, comment, time);
+        this.receiver = receiver;
+        this.text = text;
+    }
+
+    public SMSReminder(String name, String comment, long time, String receiver, String text) {
+        super(name, comment, time);
         this.receiver = receiver;
         this.text = text;
     }

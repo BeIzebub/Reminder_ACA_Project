@@ -15,11 +15,11 @@
         android:inputType="number"
         android:ems="10"
         android:id="@+id/number"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
         android:hint="Number"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="31dp"
+        android:layout_below="@+id/editText3"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/callDate" />
 
     <Button
         android:layout_width="wrap_content"
@@ -34,11 +34,11 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/textView2"
-        android:layout_below="@+id/number"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="75dp"
         android:text="Date"
-        android:textColor="#5c5b5b" />
+        android:textColor="#5c5b5b"
+        android:layout_below="@+id/number"
+        android:layout_alignStart="@+id/textView4" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -46,8 +46,8 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
         android:id="@+id/callDate"
-        android:layout_alignBottom="@+id/textView2"
-        android:layout_alignEnd="@+id/number" />
+        android:layout_above="@+id/textView4"
+        android:layout_alignEnd="@+id/callBtn" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -66,7 +66,19 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
         android:id="@+id/callTime"
-        android:layout_alignBottom="@+id/textView4"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignTop="@+id/textView4"
+        android:layout_alignEnd="@+id/callDate" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/editText3"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="25dp"
+        android:layout_alignEnd="@+id/number"
+        android:hint="Name" />
 
 </RelativeLayout>

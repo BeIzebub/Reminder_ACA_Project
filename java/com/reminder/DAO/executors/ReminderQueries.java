@@ -10,12 +10,16 @@ import com.reminder.DAO.executors.functionality.ReminderFunctionality;
 import com.reminder.DAO.objects.Reminder;
 import com.reminder.DAO.tables.ReminderTable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Armen on 21.03.2016.
  */
 public class ReminderQueries implements ReminderFunctionality{
     private String[] allColumns = {
             ReminderTable.COLUMN_ID,
+            ReminderTable.COLUMN_NAME,
             ReminderTable.COLUMN_COMMENT,
             ReminderTable.COLUMN_TIME
     };
@@ -38,6 +42,7 @@ public class ReminderQueries implements ReminderFunctionality{
     public int addReminder(Reminder r) {
         ContentValues values = new ContentValues();
         values.put(ReminderTable.COLUMN_COMMENT, r.getComment());
+        values.put(ReminderTable.COLUMN_NAME, r.getName());
         values.put(ReminderTable.COLUMN_TIME, r.getTimeInMillis());
         int id = (int) database.insert(ReminderTable.TABLE_NAME, null, values);
         Cursor cursor = database.query(ReminderTable.TABLE_NAME, allColumns, ReminderTable.COLUMN_ID + " = " + id, null, null, null, null);
@@ -60,6 +65,20 @@ public class ReminderQueries implements ReminderFunctionality{
         database.delete(ReminderTable.TABLE_NAME, ReminderTable.COLUMN_ID + " = " + id, null);
     }
 
+    @Override
+    public List<Reminder> getAllReminders() {
+        List<Reminder> reminders = new ArrayList<>();
+
+        Cursor cursor = database.query(ReminderTable.TABLE_NAME, allColumns, null, null, null, null, null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Reminder reminder = new Reminder(cursor.getInt(0),cursor.getString(1), cursor.getString(2), cursor.getLong(3));
+            reminders.add(reminder);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return reminders;
+    }
 }
 /*
 reminder table

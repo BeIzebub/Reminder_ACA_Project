@@ -89,6 +89,14 @@ public class RemindersDB implements ReminderFunctionality, CallFunctionality, SM
     }
 
     @Override
+    public List<Reminder> getAllReminders() {
+        rq.open();
+        List<Reminder> reminders = rq.getAllReminders();
+        rq.close();
+        return reminders;
+    }
+
+    @Override
     public void addSmsReminder(SMSReminder r) {
         sq.open();
         sq.addSmsReminder(r);
