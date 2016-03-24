@@ -16,6 +16,7 @@ import android.widget.FrameLayout;
 import com.reminder.mobile_activities.CallActivity;
 import com.reminder.mobile_activities.SmsActivity;
 import com.reminder.social_activities.GooglePlusActivity;
+import com.reminder.social_activities.MailActivity;
 import com.reminder.social_activities.MyFacebookActivity;
 import com.reminder.social_activities.MyTwitterActivity;
 
@@ -107,6 +108,10 @@ public class BaseActivity extends AppCompatActivity implements
         {
             case R.id.reminders:
                 startActivity(new Intent(this, HomePageActivity.class));
+                return true;
+
+            case R.id.mail:
+                startActivity(new Intent(this, MailActivity.class));
                 return true;
 
             case R.id.call:

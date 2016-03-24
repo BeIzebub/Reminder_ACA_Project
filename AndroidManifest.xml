@@ -43,9 +43,13 @@
         <activity android:name=".social_activities.MyTwitterActivity" />
         <activity android:name=".social_activities.GooglePlusActivity" />
         <activity android:name=".mobile_activities.CallActivity"></activity>
-
+        <activity android:name=".social_activities.MailActivity"/>
+        <activity android:name=".social_activities.social_service.Sender"/>
         <receiver android:name=".mobile_activities.services.CallReceiver" />
         <service android:name=".mobile_activities.services.CallService" />
+
+        <service android:name=".social_activities.social_service.MailService"/>
+        <receiver android:name=".social_activities.social_service.MailReceiver"/>
 
         <receiver android:name=".mobile_activities.services.SMSReceiver"/>
         <service android:name=".mobile_activities.services.SMSService"/>

@@ -37,9 +37,9 @@
             android:icon="@android:drawable/ic_menu_share"
             android:title="Google+" />
         <item
-            android:id="@+id/gMail"
+            android:id="@+id/mail"
             android:icon="@android:drawable/ic_menu_send"
-            android:title="Gmail" />
+            android:title="Mail" />
     </group>
 
     <group
