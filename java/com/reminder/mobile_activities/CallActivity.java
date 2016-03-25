@@ -6,12 +6,16 @@ import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -26,6 +30,13 @@ import java.util.Calendar;
 
 public class CallActivity extends BaseActivity {
 
+    private static final int PICK_CONTACT_CALL = 1001;
+    private static final int RESULT_OK_CALL = -1;
+
+    private Uri uriContact;
+    private String contactID;
+
+    private ImageButton search;
     private EditText comment, phone;
     private TextView date, time;
     private Calendar selectedCalendar, currentCalendar;
@@ -39,6 +50,7 @@ public class CallActivity extends BaseActivity {
         db = RemindersDB.getInstance(this);
         Button call = (Button) findViewById(R.id.callBtn);
         phone = (EditText) findViewById(R.id.number);
+        search = (ImageButton) findViewById(R.id.imageButton);
         date = (TextView) findViewById(R.id.callDate);
         time = (TextView) findViewById(R.id.callTime);
         comment = (EditText) findViewById(R.id.editText3);
@@ -54,6 +66,14 @@ public class CallActivity extends BaseActivity {
         date.setText(selectedDay + "/" + selectedMonth + "/" + selectedYear);
         time.setText(selectedHour + ":" + String.format("%02d\n", selectedMinute));
 
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+                startActivityForResult(i, PICK_CONTACT_CALL);
+            }
+        });
+
         call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,7 +88,11 @@ public class CallActivity extends BaseActivity {
                     if (normal) {
                      //   run();
                         CallReminder r = new CallReminder(comment.getText().toString(), selectedCalendar.getTimeInMillis(),  phone.getText().toString());
-                        db.addCallReminder(r);
+                    //    db.addCallReminder(r);
+                        Intent i = new Intent();
+                        i.putExtra("r", r);
+                        setResult(0, i);
+                        finish();
                         Toast.makeText(CallActivity.this, "Call scheduled", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -119,5 +143,41 @@ public class CallActivity extends BaseActivity {
 
         AlarmManager alarmManager = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, selectedCalendar.getTimeInMillis(), pendingIntent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(data != null){
+            uriContact = data.getData();
+            if (resultCode == RESULT_OK_CALL) {
+                switch (requestCode) {
+                    case PICK_CONTACT_CALL:
+                        if (resultCode == RESULT_OK_CALL) {
+                            String contactNumber;
+                            Cursor cursorID = getContentResolver().query(uriContact,
+                                    new String[]{ContactsContract.Contacts._ID},
+                                    null, null, null);
+                            if (cursorID.moveToFirst()) {
+                                contactID = cursorID.getString(cursorID.getColumnIndex(ContactsContract.Contacts._ID));
+                            }
+                            cursorID.close();
+                            Cursor cursorPhone = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                                    new String[]{ContactsContract.CommonDataKinds.Phone.NUMBER},
+                                    ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ? AND " +
+                                            ContactsContract.CommonDataKinds.Phone.TYPE + " = " +
+                                            ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE,
+                                    new String[]{contactID},
+                                    null);
+                            if (cursorPhone.moveToFirst()) {
+                                contactNumber = cursorPhone.getString(cursorPhone.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                                phone.setText(contactNumber);
+                            }
+                            cursorPhone.close();
+
+                        }
+                        break;
+                }
+            }}
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

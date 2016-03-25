@@ -1,10 +1,12 @@
 package com.reminder.DAO.objects;
 
 
+import java.io.Serializable;
+
 /**
  * Created by Armen on 21.03.2016.
  */
-public class Reminder {
+public class Reminder implements Serializable{
 
     public static final int SIMPLE = 0;
     public static final int CALL_REMINDER = 1;

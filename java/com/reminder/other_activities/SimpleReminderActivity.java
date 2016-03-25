@@ -2,6 +2,7 @@ package com.reminder.other_activities;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -68,7 +69,11 @@ public class SimpleReminderActivity extends BaseActivity {
                     if (normal) {
                         //   run();
                         Reminder r = new Reminder(name.getText().toString(), comment.getText().toString(), selectedCalendar.getTimeInMillis(), Reminder.SIMPLE);
-                        db.addReminder(r);
+                    //    db.addReminder(r);
+                        Intent i = new Intent();
+                        i.putExtra("r", r);
+                        setResult(0, i);
+                        finish();
                         Toast.makeText(SimpleReminderActivity.this, "Reminder saved", Toast.LENGTH_SHORT).show();
                     }
                 }
