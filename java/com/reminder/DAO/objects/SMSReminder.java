@@ -1,9 +1,11 @@
 package com.reminder.DAO.objects;
 
+import java.io.Serializable;
+
 /**
  * Created by Armen on 21.03.2016.
  */
-public class SMSReminder extends Reminder {
+public class SMSReminder extends Reminder implements Serializable {
     private String receiver;
     private String text;
 

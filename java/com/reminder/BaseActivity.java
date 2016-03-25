@@ -114,6 +114,10 @@ public class BaseActivity extends AppCompatActivity implements
                 startActivity(new Intent(this, HomePageActivity.class));
                 return true;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> chem gidm
             case R.id.mail:
                 startActivity(new Intent(this, MailActivity.class));
 

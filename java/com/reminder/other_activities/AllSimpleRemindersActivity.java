@@ -16,13 +16,14 @@ import java.util.List;
 
 public class AllSimpleRemindersActivity extends BaseActivity {
 
+    ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_simple_reminders);
         setTitle("Simple reminders");
 
-        ListView listView = (ListView) findViewById(R.id.simpleRems);
+        listView = (ListView) findViewById(R.id.simpleRems);
         Button add = (Button) findViewById(R.id.addSimpleRem);
 
         List<Reminder> rems = RemindersDB.getInstance(this).getAllSimpleReminders();
@@ -32,8 +33,17 @@ public class AllSimpleRemindersActivity extends BaseActivity {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(AllSimpleRemindersActivity.this, SimpleReminderActivity.class));
+                startActivityForResult(new Intent(AllSimpleRemindersActivity.this, SimpleReminderActivity.class), 0);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        RemindersDB.getInstance(this).addReminder((Reminder)data.getSerializableExtra("r"));
+        List<Reminder> rems = RemindersDB.getInstance(this).getAllSimpleReminders();
+        CustomAdapter adapter = new CustomAdapter(this, rems);
+        listView.setAdapter(adapter);
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
