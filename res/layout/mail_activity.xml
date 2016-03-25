@@ -78,5 +78,5 @@
         android:text="Large Text"
         android:id="@+id/timeText"
         android:layout_alignTop="@+id/timeTextView"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignStart="@+id/dateText" />
 </RelativeLayout>
