@@ -42,9 +42,15 @@
         <activity android:name=".mobile_activities.SmsActivity" />
         <activity android:name=".social_activities.MyTwitterActivity" />
         <activity android:name=".social_activities.GooglePlusActivity" />
-        <activity android:name=".mobile_activities.CallActivity"></activity>
+        <activity android:name=".mobile_activities.CallActivity"/>
         <activity android:name=".social_activities.MailActivity"/>
+
         <activity android:name=".social_activities.social_service.Sender"/>
+        <activity android:name=".social_activities.social_service.FacebookSharer"/>
+
+        <receiver android:name=".social_activities.social_service.FacebookReceiver"/>
+        <service android:name=".social_activities.social_service.FacebookService"/>
+
         <receiver android:name=".mobile_activities.services.CallReceiver" />
         <service android:name=".mobile_activities.services.CallService" />
 
@@ -53,7 +59,7 @@
 
         <receiver android:name=".mobile_activities.services.SMSReceiver"/>
         <service android:name=".mobile_activities.services.SMSService"/>
-        <activity android:name=".mobile_activities.services.NotifyActivityHandler"></activity>
-    </application>
 
+        <activity android:name=".mobile_activities.services.NotifyActivityHandler"/>
+    </application>
 </manifest>
