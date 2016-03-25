@@ -23,6 +23,7 @@ import com.reminder.social_activities.MailActivity;
 import com.reminder.social_activities.MyFacebookActivity;
 import com.reminder.social_activities.MyTwitterActivity;
 
+
 public class BaseActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener {
 
@@ -113,13 +114,12 @@ public class BaseActivity extends AppCompatActivity implements
                 startActivity(new Intent(this, HomePageActivity.class));
                 return true;
 
-<<<<<<< HEAD
             case R.id.mail:
                 startActivity(new Intent(this, MailActivity.class));
-=======
+
             case R.id.reminders:
                 startActivity(new Intent(this, AllSimpleRemindersActivity.class));
->>>>>>> Database updated
+
                 return true;
 
             case R.id.call:
