@@ -1,11 +1,9 @@
 package com.reminder;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,18 +11,17 @@ import android.widget.TextView;
 import com.reminder.DAO.objects.CallReminder;
 import com.reminder.DAO.objects.Reminder;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 /**
- * Created by Armen on 22.03.2016.
+ * Created by Armen on 25.03.2016.
  */
-public class CustomAdapter extends BaseAdapter {
-    private List<Reminder> reminders;
+public class CustomAdapterForCalls extends BaseAdapter {
+    private List<CallReminder> reminders;
     private static LayoutInflater inflater = null;
 
-    public CustomAdapter(Context activity, List<Reminder> reminders) {
+    public CustomAdapterForCalls(Context activity, List<CallReminder> reminders) {
         this.reminders = reminders;
         inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }

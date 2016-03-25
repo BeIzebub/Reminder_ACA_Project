@@ -62,7 +62,7 @@ public class CallQueries implements CallFunctionality{
     @Override
     public List<CallReminder> getAllCallReminders() {
         List<CallReminder> reminders = new ArrayList<>();
-        String query = "SELECT reminders.id, reminders.name, reminders.time, reminders.comment, calls.receiver " +
+        String query = "SELECT reminders.id, reminders.comment, reminders.time, calls.receiver " +
                 "FROM reminders " +
                 "INNER JOIN calls " +
                 "ON reminders.id = calls.reminder_id ";
@@ -70,8 +70,9 @@ public class CallQueries implements CallFunctionality{
         Cursor cursor = database.rawQuery(query, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            CallReminder reminder = new CallReminder(cursor.getInt(0),cursor.getString(1), cursor.getString(2), cursor.getInt(3), cursor.getString(4));
+            CallReminder reminder = new CallReminder(cursor.getInt(0), cursor.getString(1), cursor.getLong(2), cursor.getString(3));
             reminders.add(reminder);
+
             cursor.moveToNext();
         }
         cursor.close();

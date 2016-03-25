@@ -1,13 +1,8 @@
-package com.reminder.mobile_activities;
+package com.reminder.other_activities;
 
-import android.app.AlarmManager;
 import android.app.DatePickerDialog;
-import android.app.PendingIntent;
 import android.app.TimePickerDialog;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -19,29 +14,34 @@ import android.widget.Toast;
 import com.reminder.BaseActivity;
 import com.reminder.DAO.RemindersDB;
 import com.reminder.DAO.objects.CallReminder;
+import com.reminder.DAO.objects.Reminder;
 import com.reminder.R;
-import com.reminder.mobile_activities.services.CallReceiver;
 
 import java.util.Calendar;
 
-public class CallActivity extends BaseActivity {
 
-    private EditText comment, phone;
+/**
+ * Created by Armen on 24.03.2016.
+ */
+public class SimpleReminderActivity extends BaseActivity {
+
+    private EditText name, comment;
     private TextView date, time;
     private Calendar selectedCalendar, currentCalendar;
     private int selectedDay, selectedMonth, selectedYear, selectedHour, selectedMinute;
     private RemindersDB db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_call);
-        setTitle("Call");
+        setContentView(R.layout.activity_simple_reminders);
+        setTitle("Simple reminder");
         db = RemindersDB.getInstance(this);
-        Button call = (Button) findViewById(R.id.callBtn);
-        phone = (EditText) findViewById(R.id.number);
-        date = (TextView) findViewById(R.id.callDate);
-        time = (TextView) findViewById(R.id.callTime);
-        comment = (EditText) findViewById(R.id.editText3);
+        Button done = (Button) findViewById(R.id.button2);
+        name = (EditText) findViewById(R.id.simple_reminder_name);
+        date = (TextView) findViewById(R.id.reminderDate);
+        time = (TextView) findViewById(R.id.reminderTime);
+        comment = (EditText) findViewById(R.id.simple_reminder_comment);
         selectedCalendar = Calendar.getInstance();
         currentCalendar = Calendar.getInstance();
 
@@ -54,22 +54,22 @@ public class CallActivity extends BaseActivity {
         date.setText(selectedDay + "/" + selectedMonth + "/" + selectedYear);
         time.setText(selectedHour + ":" + String.format("%02d\n", selectedMinute));
 
-        call.setOnClickListener(new View.OnClickListener() {
+        done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (selectedCalendar.getTimeInMillis() < currentCalendar.getTimeInMillis())
-                    Toast.makeText(CallActivity.this, "Time must be future", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SimpleReminderActivity.this, "Time must be future", Toast.LENGTH_SHORT).show();
                 else {
                     boolean normal = true;
-                    if (phone.getText().toString().equals("")) {
-                        phone.setError("Input receiver's number");
+                    if (name.getText().toString().equals("")) {
+                        name.setError("Input name");
                         normal = false;
                     }
                     if (normal) {
-                     //   run();
-                        CallReminder r = new CallReminder(comment.getText().toString(), selectedCalendar.getTimeInMillis(),  phone.getText().toString());
-                        db.addCallReminder(r);
-                        Toast.makeText(CallActivity.this, "Call scheduled", Toast.LENGTH_SHORT).show();
+                        //   run();
+                        Reminder r = new Reminder(name.getText().toString(), comment.getText().toString(), selectedCalendar.getTimeInMillis(), Reminder.SIMPLE);
+                        db.addReminder(r);
+                        Toast.makeText(SimpleReminderActivity.this, "Reminder saved", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -78,7 +78,7 @@ public class CallActivity extends BaseActivity {
         date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerDialog d = new DatePickerDialog(CallActivity.this, new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog d = new DatePickerDialog(SimpleReminderActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         selectedDay = dayOfMonth;
@@ -97,7 +97,7 @@ public class CallActivity extends BaseActivity {
         time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TimePickerDialog d = new TimePickerDialog(CallActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                TimePickerDialog d = new TimePickerDialog(SimpleReminderActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         selectedHour = hourOfDay;
@@ -110,14 +110,6 @@ public class CallActivity extends BaseActivity {
                 d.show();
             }
         });
-    }
 
-    private void run() {
-        Intent myIntent = new Intent(this, CallReceiver.class);
-        myIntent.putExtra("n", phone.getText().toString());
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this,  0, myIntent, 0);
-
-        AlarmManager alarmManager = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, selectedCalendar.getTimeInMillis(), pendingIntent);
     }
 }

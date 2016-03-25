@@ -4,9 +4,13 @@
         android:id="@+id/menu_top"
         android:checkableBehavior="single">
         <item
+            android:id="@+id/all_reminders"
+            android:icon="@android:drawable/ic_popup_reminder"
+            android:title="All reminders" />
+        <item
             android:id="@+id/reminders"
-            android:icon="@android:drawable/ic_menu_send"
-            android:title="Reminders" />
+            android:icon="@android:drawable/ic_popup_reminder"
+            android:title="Simple reminder" />
         <item
             android:id="@+id/call"
             android:icon="@android:drawable/ic_menu_call"

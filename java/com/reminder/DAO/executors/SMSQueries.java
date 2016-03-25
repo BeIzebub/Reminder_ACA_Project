@@ -65,7 +65,7 @@ public class SMSQueries implements SMSFunctionality{
     @Override
     public List<SMSReminder> getAllSmsReminders() {
         List<SMSReminder> reminders = new ArrayList<>();
-        String query = "SELECT reminders.id, reminders.name, reminders.time, reminders.comment, sms.receiver, sms.text " +
+        String query = "SELECT reminders.id, reminders.comment, reminders.time, sms.receiver, sms.text " +
                 "FROM reminders " +
                 "INNER JOIN sms " +
                 "ON reminders.id = sms.reminder_id";
@@ -73,7 +73,7 @@ public class SMSQueries implements SMSFunctionality{
         Cursor cursor  = database.rawQuery(query, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            SMSReminder reminder = new SMSReminder(cursor.getInt(0),cursor.getString(1), cursor.getString(2), cursor.getInt(3), cursor.getString(4), cursor.getString(5));
+            SMSReminder reminder = new SMSReminder(cursor.getInt(0), cursor.getString(1), cursor.getLong(2), cursor.getString(3), cursor.getString(4));
             reminders.add(reminder);
             cursor.moveToNext();
         }

@@ -12,4 +12,5 @@ public interface ReminderFunctionality {
     void editReminder(Reminder r);
     void deleteReminder(int id);
     List<Reminder> getAllReminders();
+    List<Reminder> getAllSimpleReminders();
 }

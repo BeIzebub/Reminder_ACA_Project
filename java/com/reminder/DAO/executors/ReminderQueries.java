@@ -21,7 +21,8 @@ public class ReminderQueries implements ReminderFunctionality{
             ReminderTable.COLUMN_ID,
             ReminderTable.COLUMN_NAME,
             ReminderTable.COLUMN_COMMENT,
-            ReminderTable.COLUMN_TIME
+            ReminderTable.COLUMN_TIME,
+            ReminderTable.COLUMN_TYPE
     };
 
     private SQLiteDatabase database;
@@ -44,6 +45,7 @@ public class ReminderQueries implements ReminderFunctionality{
         values.put(ReminderTable.COLUMN_COMMENT, r.getComment());
         values.put(ReminderTable.COLUMN_NAME, r.getName());
         values.put(ReminderTable.COLUMN_TIME, r.getTimeInMillis());
+        values.put(ReminderTable.COLUMN_TYPE, r.getType());
         int id = (int) database.insert(ReminderTable.TABLE_NAME, null, values);
         Cursor cursor = database.query(ReminderTable.TABLE_NAME, allColumns, ReminderTable.COLUMN_ID + " = " + id, null, null, null, null);
         cursor.moveToFirst();
@@ -57,6 +59,7 @@ public class ReminderQueries implements ReminderFunctionality{
         ContentValues values = new ContentValues();
         values.put(ReminderTable.COLUMN_COMMENT, r.getComment());
         values.put(ReminderTable.COLUMN_TIME, r.getTimeInMillis());
+        values.put(ReminderTable.COLUMN_TYPE, r.getType());
         database.update(ReminderTable.TABLE_NAME, values, ReminderTable.COLUMN_ID + " = " + r.getId(), null);
     }
 
@@ -72,27 +75,28 @@ public class ReminderQueries implements ReminderFunctionality{
         Cursor cursor = database.query(ReminderTable.TABLE_NAME, allColumns, null, null, null, null, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            Reminder reminder = new Reminder(cursor.getInt(0),cursor.getString(1), cursor.getString(2), cursor.getLong(3));
+            Reminder reminder = new Reminder(cursor.getInt(0),cursor.getString(1), cursor.getString(2), cursor.getLong(3), cursor.getInt(4));
             reminders.add(reminder);
             cursor.moveToNext();
         }
         cursor.close();
         return reminders;
     }
+
+    @Override
+    public List<Reminder> getAllSimpleReminders() {
+        List<Reminder> reminders = new ArrayList<>();
+
+        Cursor cursor = database.query(ReminderTable.TABLE_NAME, allColumns, null, null, null, null, null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            if (cursor.getInt(4) == Reminder.SIMPLE) {
+                Reminder reminder = new Reminder(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getLong(3), cursor.getInt(4));
+                reminders.add(reminder);
+            }
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return reminders;
+    }
 }
-/*
-reminder table
-id comment date
-1   asd    ....
-2   ba     ....
-
-calls table
-id receiver
-1   ....
-
-sms table
-id receiver text
-2   ....    ....
-
-add aneluc demic arec reminderneri mej heto et id-ov calli kam smsi
- */

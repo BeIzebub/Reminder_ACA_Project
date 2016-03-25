@@ -13,8 +13,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.reminder.mobile_activities.AllCallRemindersActivity;
 import com.reminder.mobile_activities.CallActivity;
 import com.reminder.mobile_activities.SmsActivity;
+import com.reminder.other_activities.AllSimpleRemindersActivity;
+import com.reminder.other_activities.SimpleReminderActivity;
 import com.reminder.social_activities.GooglePlusActivity;
 import com.reminder.social_activities.MailActivity;
 import com.reminder.social_activities.MyFacebookActivity;
@@ -66,7 +69,7 @@ public class BaseActivity extends AppCompatActivity implements
     {
         navigationView.setNavigationItemSelectedListener(this);
 
-        if( useDrawerToggle()) { // use the hamburger menu
+        if( useDrawerToggle()) {
             drawerToggle = new ActionBarDrawerToggle(this, fullLayout, toolbar,
                     R.string.nav_drawer_opened,
                     R.string.nav_drawer_closed);
@@ -106,16 +109,21 @@ public class BaseActivity extends AppCompatActivity implements
         //noinspection SimplifiableIfStatement
         switch (id)
         {
-            case R.id.reminders:
+            case R.id.all_reminders:
                 startActivity(new Intent(this, HomePageActivity.class));
                 return true;
 
+<<<<<<< HEAD
             case R.id.mail:
                 startActivity(new Intent(this, MailActivity.class));
+=======
+            case R.id.reminders:
+                startActivity(new Intent(this, AllSimpleRemindersActivity.class));
+>>>>>>> Database updated
                 return true;
 
             case R.id.call:
-                startActivity(new Intent(this, CallActivity.class));
+                startActivity(new Intent(this, AllCallRemindersActivity.class));
                 return true;
 
             case R.id.sms :

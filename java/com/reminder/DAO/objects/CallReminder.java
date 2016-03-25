@@ -10,13 +10,13 @@ public class CallReminder extends Reminder {
         super();
     }
 
-    public CallReminder(int id, String name, String comment, long time, String receiver) {
-        super(id,name, comment, time);
+    public CallReminder(int id, String comment, long time, String receiver) {
+        super(id,"Call to " + receiver, comment, time, Reminder.CALL_REMINDER);
         this.receiver = receiver;
     }
 
-    public CallReminder(String name, String comment, long time, String receiver) {
-        super(name, comment, time);
+    public CallReminder(String comment, long time, String receiver) {
+        super("Call to " + receiver, comment, time, Reminder.CALL_REMINDER);
         this.receiver = receiver;
     }
 
