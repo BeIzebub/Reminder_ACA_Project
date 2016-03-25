@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.reminder.mobile_activities.AllCallRemindersActivity;
+import com.reminder.mobile_activities.AllSMSRemindersActivity;
 import com.reminder.mobile_activities.CallActivity;
 import com.reminder.mobile_activities.SmsActivity;
 import com.reminder.other_activities.AllSimpleRemindersActivity;
@@ -127,7 +128,7 @@ public class BaseActivity extends AppCompatActivity implements
                 return true;
 
             case R.id.sms :
-                startActivity(new Intent(this, SmsActivity.class));
+                startActivity(new Intent(this, AllSMSRemindersActivity.class));
                 return true;
 
             case R.id.facebook:

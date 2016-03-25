@@ -66,6 +66,7 @@
         <service android:name=".mobile_activities.services.SMSService" />
 
         <activity android:name=".mobile_activities.services.NotifyActivityHandler" />
+        <activity android:name=".mobile_activities.AllSMSRemindersActivity"></activity>
     </application>
 
 </manifest>
