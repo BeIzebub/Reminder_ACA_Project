@@ -40,10 +40,12 @@ public class AllSimpleRemindersActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        RemindersDB.getInstance(this).addReminder((Reminder)data.getSerializableExtra("r"));
-        List<Reminder> rems = RemindersDB.getInstance(this).getAllSimpleReminders();
-        CustomAdapter adapter = new CustomAdapter(this, rems);
-        listView.setAdapter(adapter);
+        if (data != null) {
+            RemindersDB.getInstance(this).addReminder((Reminder) data.getSerializableExtra("r"));
+            List<Reminder> rems = RemindersDB.getInstance(this).getAllSimpleReminders();
+            CustomAdapter adapter = new CustomAdapter(this, rems);
+            listView.setAdapter(adapter);
+        }
         super.onActivityResult(requestCode, resultCode, data);
     }
 }

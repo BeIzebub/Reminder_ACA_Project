@@ -21,6 +21,8 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.reminder.BaseActivity;
+import com.reminder.DAO.objects.CallReminder;
+import com.reminder.DAO.objects.SMSReminder;
 import com.reminder.R;
 import com.reminder.mobile_activities.services.SMSReceiver;
 
@@ -175,6 +177,10 @@ public class SmsActivity extends BaseActivity {
                 if (newCalendar.getTimeInMillis() < c.getTimeInMillis()) {
                     Toast.makeText(SmsActivity.this, "Time must be future", Toast.LENGTH_SHORT).show();
                 } else {
+                    SMSReminder r = new SMSReminder(commentEdit.getText().toString(), newCalendar.getTimeInMillis(), phoneEdit.getText().toString(), textEdit.getText().toString());
+                    Intent i = new Intent();
+                    i.putExtra("r", r);
+                    setResult(0, i);
                     phone = phoneEdit.getText().toString();
                     text = textEdit.getText().toString();
                     Intent intent = new Intent(SmsActivity.this, SMSReceiver.class);
@@ -190,6 +196,7 @@ public class SmsActivity extends BaseActivity {
                     PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), id, myIntent, PendingIntent.FLAG_ONE_SHOT);
                     AlarmManager alarmManager = (AlarmManager) getApplication().getSystemService(Context.ALARM_SERVICE);
                     alarmManager.setExact(AlarmManager.RTC_WAKEUP, newCalendar.getTimeInMillis(), pendingIntent);
+                    finish();
                 }
             }
         }

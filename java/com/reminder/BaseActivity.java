@@ -117,10 +117,10 @@ public class BaseActivity extends AppCompatActivity implements
 
             case R.id.mail:
                 startActivity(new Intent(this, MailActivity.class));
+                return true;
 
             case R.id.reminders:
                 startActivity(new Intent(this, AllSimpleRemindersActivity.class));
-
                 return true;
 
             case R.id.call:

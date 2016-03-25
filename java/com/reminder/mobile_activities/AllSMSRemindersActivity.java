@@ -19,6 +19,7 @@ import java.util.List;
 
 public class AllSMSRemindersActivity extends BaseActivity {
 
+    private ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,7 +27,7 @@ public class AllSMSRemindersActivity extends BaseActivity {
 
         setTitle("SMS reminders");
 
-        ListView listView = (ListView) findViewById(R.id.allSMS);
+        listView = (ListView) findViewById(R.id.allSMS);
         Button add = (Button) findViewById(R.id.addSMS);
 
         List<SMSReminder> rems = RemindersDB.getInstance(this).getAllSmsReminders();
@@ -39,5 +40,14 @@ public class AllSMSRemindersActivity extends BaseActivity {
                 startActivityForResult(new Intent(AllSMSRemindersActivity.this, SmsActivity.class), 0);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        RemindersDB.getInstance(this).addSmsReminder((SMSReminder) data.getSerializableExtra("r"));
+        List<SMSReminder> rems = RemindersDB.getInstance(this).getAllSmsReminders();
+        CustomAdapterForSMS adapter = new CustomAdapterForSMS(this, rems);
+        listView.setAdapter(adapter);
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
