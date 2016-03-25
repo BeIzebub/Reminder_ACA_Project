@@ -42,8 +42,6 @@
         <activity android:name=".mobile_activities.SmsActivity" />
         <activity android:name=".social_activities.MyTwitterActivity" />
         <activity android:name=".social_activities.GooglePlusActivity" />
-<<<<<<< HEAD
-=======
 
         <activity android:name=".mobile_activities.CallActivity"/>
         <activity android:name=".social_activities.MailActivity"/>
@@ -54,31 +52,22 @@
         <receiver android:name=".social_activities.social_service.FacebookReceiver"/>
         <service android:name=".social_activities.social_service.FacebookService"/>
 
->>>>>>> chem gidm
-        <activity android:name=".mobile_activities.CallActivity" />
-        <activity android:name=".social_activities.MailActivity" />
-        <activity android:name=".social_activities.social_service.Sender" />
-        <activity android:name=".social_activities.social_service.FacebookSharer" />
         <activity android:name=".other_activities.SimpleReminderActivity" />
 
-<<<<<<< HEAD
         <receiver android:name=".social_activities.social_service.FacebookReceiver" />
 
         <activity android:name=".other_activities.AllSimpleRemindersActivity" />
         <activity android:name=".mobile_activities.AllCallRemindersActivity" />
 
         <service android:name=".social_activities.social_service.FacebookService" />
-=======
->>>>>>> chem gidm
+
 
         <receiver android:name=".mobile_activities.services.CallReceiver" />
 
         <service android:name=".mobile_activities.services.CallService" />
         <service android:name=".social_activities.social_service.MailService" />
 
-<<<<<<< HEAD
         <receiver android:name=".social_activities.social_service.MailReceiver" />
-=======
 
         <service android:name=".social_activities.social_service.MailService"/>
         <receiver android:name=".social_activities.social_service.MailReceiver"/>
@@ -86,7 +75,6 @@
         <receiver android:name=".mobile_activities.services.SMSReceiver"/>
         <service android:name=".mobile_activities.services.SMSService"/>
 
->>>>>>> chem gidm
         <receiver android:name=".mobile_activities.services.SMSReceiver" />
 
         <service android:name=".mobile_activities.services.SMSService" />
@@ -94,13 +82,8 @@
         <activity android:name=".mobile_activities.services.NotifyActivityHandler" />
         <activity android:name=".mobile_activities.AllSMSRemindersActivity"></activity>
     </application>
-<<<<<<< HEAD
+
 
 </manifest>
-=======
 
 
-        <activity android:name=".mobile_activities.services.NotifyActivityHandler"/>
-    </manifest>
-
->>>>>>> chem gidm
