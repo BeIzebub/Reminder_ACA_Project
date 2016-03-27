@@ -21,6 +21,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.reminder.BaseActivity;
+import com.reminder.DAO.RemindersDB;
 import com.reminder.DAO.objects.CallReminder;
 import com.reminder.DAO.objects.SMSReminder;
 import com.reminder.R;
@@ -192,8 +193,9 @@ public class SmsActivity extends BaseActivity {
                     if(! commentEdit.getText().toString().matches("")) {
                         myIntent.putExtra("comment", commentEdit.getText().toString());
                     }
-                    int id = (int) (System.currentTimeMillis()/1000);
-                    PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), id, myIntent, PendingIntent.FLAG_ONE_SHOT);
+                    int id = (int) (Calendar.getInstance().getTimeInMillis() / 1000);
+                    PendingIntent pendingIntent;
+                    pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), id, myIntent, PendingIntent.FLAG_ONE_SHOT);
                     AlarmManager alarmManager = (AlarmManager) getApplication().getSystemService(Context.ALARM_SERVICE);
                     alarmManager.setExact(AlarmManager.RTC_WAKEUP, newCalendar.getTimeInMillis(), pendingIntent);
                     finish();

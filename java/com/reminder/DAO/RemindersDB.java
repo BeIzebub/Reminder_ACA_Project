@@ -55,6 +55,7 @@ public class RemindersDB implements ReminderFunctionality, CallFunctionality, SM
     public void deleteCallReminder(int id) {
         cq.open();
         cq.deleteCallReminder(id);
+        deleteReminder(id);
         cq.close();
     }
 
@@ -122,6 +123,7 @@ public class RemindersDB implements ReminderFunctionality, CallFunctionality, SM
     public void deleteSmsReminder(int id) {
         sq.open();
         sq.deleteSmsReminder(id);
+        deleteReminder(id);
         sq.close();
     }
 
