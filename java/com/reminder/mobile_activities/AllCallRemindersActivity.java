@@ -1,25 +1,31 @@
 package com.reminder.mobile_activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
 
+import com.baoyz.swipemenulistview.SwipeMenu;
+import com.baoyz.swipemenulistview.SwipeMenuCreator;
+import com.baoyz.swipemenulistview.SwipeMenuItem;
+import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.reminder.BaseActivity;
-import com.reminder.CustomAdapter;
 import com.reminder.CustomAdapterForCalls;
 import com.reminder.DAO.RemindersDB;
 import com.reminder.DAO.objects.CallReminder;
-import com.reminder.DAO.objects.Reminder;
 import com.reminder.R;
 
 import java.util.List;
 
 public class AllCallRemindersActivity extends BaseActivity {
 
-    private ListView listView;
+    private SwipeMenuListView listView;
+    private List<CallReminder> rems;
+    private CustomAdapterForCalls adapter;
+    private RemindersDB db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,12 +33,9 @@ public class AllCallRemindersActivity extends BaseActivity {
         setContentView(R.layout.activity_all_call_reminders);
         setTitle("Call reminders");
 
-        listView = (ListView) findViewById(R.id.allCalls);
+        listView = (SwipeMenuListView) findViewById(R.id.allCalls);
         Button add = (Button) findViewById(R.id.addCall);
-
-        List<CallReminder> rems = RemindersDB.getInstance(this).getAllCallReminders();
-        CustomAdapterForCalls adapter = new CustomAdapterForCalls(this, rems);
-        listView.setAdapter(adapter);
+        db = RemindersDB.getInstance(this);
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,6 +43,44 @@ public class AllCallRemindersActivity extends BaseActivity {
                 startActivityForResult(new Intent(AllCallRemindersActivity.this, CallActivity.class), 0);
             }
         });
+        init();
+
+        SwipeMenuCreator creator = new SwipeMenuCreator() {
+            @Override
+            public void create(SwipeMenu menu) {
+                SwipeMenuItem deleteItem = new SwipeMenuItem(
+                        getApplicationContext());
+                deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9,
+                        0x3F, 0x25)));
+                Display display = getWindowManager().getDefaultDisplay();
+                deleteItem.setWidth(display.getWidth()/2);
+                deleteItem.setTitle("Delete this reminder?");
+                deleteItem.setTitleSize(18);
+                deleteItem.setTitleColor(Color.WHITE);
+                deleteItem.setIcon(android.R.drawable.ic_menu_delete);
+                menu.addMenuItem(deleteItem);
+            }
+        };
+
+        listView.setMenuCreator(creator);
+
+        listView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+                db.deleteCallReminder(rems.get(position).getId());
+                init();
+                adapter.notifyDataSetChanged();
+                return false;
+            }
+        });
+
+        listView.setSwipeDirection(SwipeMenuListView.DIRECTION_LEFT);
+    }
+
+    private void init() {
+        rems = db.getAllCallReminders();
+        adapter = new CustomAdapterForCalls(this, rems);
+        listView.setAdapter(adapter);
     }
 
     @Override
