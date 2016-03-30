@@ -48,6 +48,7 @@ public class RemindersDB implements ReminderFunctionality, CallFunctionality, SM
     public void editCallReminder(CallReminder r) {
         cq.open();
         cq.editCallReminder(r);
+        editReminder(r);
         cq.close();
     }
 
@@ -116,6 +117,7 @@ public class RemindersDB implements ReminderFunctionality, CallFunctionality, SM
     public void editSmsReminder(SMSReminder r) {
         sq.open();
         sq.editSmsReminder(r);
+        editReminder(r);
         sq.close();
     }
 
