@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
@@ -44,6 +45,7 @@ public class AllSimpleRemindersActivity extends BaseActivity {
             }
         });
         listView = (SwipeMenuListView) findViewById(R.id.simpleRems);
+        db = RemindersDB.getInstance(this);
         init();
 
         SwipeMenuCreator creator = new SwipeMenuCreator() {
@@ -79,7 +81,6 @@ public class AllSimpleRemindersActivity extends BaseActivity {
     }
 
     private void init() {
-        db = RemindersDB.getInstance(this);
         rems = db.getAllSimpleReminders();
         adapter = new CustomAdapter(this, rems);
         listView.setAdapter(adapter);
@@ -88,10 +89,8 @@ public class AllSimpleRemindersActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (data != null) {
-            RemindersDB.getInstance(this).addReminder((Reminder) data.getSerializableExtra("r"));
-            List<Reminder> rems = RemindersDB.getInstance(this).getAllSimpleReminders();
-            CustomAdapter adapter = new CustomAdapter(this, rems);
-            listView.setAdapter(adapter);
+            db.addReminder((Reminder) data.getSerializableExtra("r"));
+            init();
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
