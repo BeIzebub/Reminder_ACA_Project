@@ -85,10 +85,12 @@ public class AllCallRemindersActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        RemindersDB.getInstance(this).addCallReminder((CallReminder)data.getSerializableExtra("r"));
-        List<CallReminder> rems = RemindersDB.getInstance(this).getAllCallReminders();
-        CustomAdapterForCalls adapter = new CustomAdapterForCalls(this, rems);
-        listView.setAdapter(adapter);
+        if (data != null) {
+            RemindersDB.getInstance(this).addCallReminder((CallReminder) data.getSerializableExtra("r"));
+            List<CallReminder> rems = RemindersDB.getInstance(this).getAllCallReminders();
+            CustomAdapterForCalls adapter = new CustomAdapterForCalls(this, rems);
+            listView.setAdapter(adapter);
+        }
         super.onActivityResult(requestCode, resultCode, data);
     }
 }

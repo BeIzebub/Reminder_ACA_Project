@@ -86,10 +86,12 @@ public class AllSMSRemindersActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        RemindersDB.getInstance(this).addSmsReminder((SMSReminder) data.getSerializableExtra("r"));
-        List<SMSReminder> rems = RemindersDB.getInstance(this).getAllSmsReminders();
-        CustomAdapterForSMS adapter = new CustomAdapterForSMS(this, rems);
-        listView.setAdapter(adapter);
+        if (data != null) {
+            RemindersDB.getInstance(this).addSmsReminder((SMSReminder) data.getSerializableExtra("r"));
+            List<SMSReminder> rems = RemindersDB.getInstance(this).getAllSmsReminders();
+            CustomAdapterForSMS adapter = new CustomAdapterForSMS(this, rems);
+            listView.setAdapter(adapter);
+        }
         super.onActivityResult(requestCode, resultCode, data);
     }
 }
