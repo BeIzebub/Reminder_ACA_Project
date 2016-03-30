@@ -43,7 +43,7 @@ public class AllSimpleRemindersActivity extends BaseActivity {
                 startActivityForResult(new Intent(AllSimpleRemindersActivity.this, SimpleReminderActivity.class), 0);
             }
         });
-
+        listView = (SwipeMenuListView) findViewById(R.id.simpleRems);
         init();
 
         SwipeMenuCreator creator = new SwipeMenuCreator() {
@@ -79,7 +79,8 @@ public class AllSimpleRemindersActivity extends BaseActivity {
     }
 
     private void init() {
-        rems = db.getAllReminders();
+        db = RemindersDB.getInstance(this);
+        rems = db.getAllSimpleReminders();
         adapter = new CustomAdapter(this, rems);
         listView.setAdapter(adapter);
     }

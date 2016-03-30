@@ -7,19 +7,16 @@ import android.os.Bundle;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
 
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.reminder.BaseActivity;
-import com.reminder.CustomAdapterForCalls;
 import com.reminder.CustomAdapterForSMS;
 import com.reminder.DAO.RemindersDB;
 import com.reminder.DAO.objects.SMSReminder;
 import com.reminder.R;
-import com.reminder.SwipeDismissListViewTouchListener;
 
 import java.util.List;
 
