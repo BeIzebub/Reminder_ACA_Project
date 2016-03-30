@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.reminder.DAO.RemindersDB;
 import com.reminder.DAO.objects.Reminder;
 import com.reminder.R;
 
+import java.util.Collections;
 import java.util.List;
 
 public class AllSimpleRemindersActivity extends BaseActivity {
@@ -37,13 +39,13 @@ public class AllSimpleRemindersActivity extends BaseActivity {
         setContentView(R.layout.activity_all_simple_reminders);
         setTitle("Simple reminders");
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivityForResult(new Intent(AllSimpleRemindersActivity.this, SimpleReminderActivity.class), 0);
-            }
-        });
+      //  fab = (FloatingActionButton) findViewById(R.id.fab);
+       // fab.setOnClickListener(new View.OnClickListener() {
+       //     @Override
+       //     public void onClick(View v) {
+      //          startActivityForResult(new Intent(AllSimpleRemindersActivity.this, SimpleReminderActivity.class), 0);
+      //      }
+     //   });
         listView = (SwipeMenuListView) findViewById(R.id.simpleRems);
         db = RemindersDB.getInstance(this);
         init();
@@ -70,9 +72,20 @@ public class AllSimpleRemindersActivity extends BaseActivity {
         listView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+                final Reminder r = rems.get(position);
                 db.deleteReminder(rems.get(position).getId());
                 init();
                 adapter.notifyDataSetChanged();
+                final Snackbar snackbar = Snackbar.make(listView, "Reminder deleted", Snackbar.LENGTH_LONG);
+                snackbar.setAction("Undo", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        db.addReminder(r);
+                        init();
+                        snackbar.dismiss();
+                    }
+                });
+                snackbar.show();
                 return false;
             }
         });
@@ -82,6 +95,7 @@ public class AllSimpleRemindersActivity extends BaseActivity {
 
     private void init() {
         rems = db.getAllSimpleReminders();
+    //    Collections.sort(rems);
         adapter = new CustomAdapter(this, rems);
         listView.setAdapter(adapter);
     }

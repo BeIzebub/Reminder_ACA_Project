@@ -3,8 +3,10 @@ package com.reminder;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.util.TypedValue;
 import android.view.Display;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -58,9 +60,20 @@ public class HomePageActivity extends BaseActivity {
         listView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+                final Reminder r = calls.get(position);
                 db.deleteCallReminder(calls.get(position).getId());
                 init();
                 adapter.notifyDataSetChanged();
+                final Snackbar snackbar = Snackbar.make(listView, "Reminder deleted", Snackbar.LENGTH_LONG);
+                snackbar.setAction("Undo", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        db.addReminder(r);
+                        init();
+                        snackbar.dismiss();
+                    }
+                });
+                snackbar.show();
                 return false;
             }
         });

@@ -18,6 +18,7 @@ import com.reminder.DAO.RemindersDB;
 import com.reminder.DAO.objects.CallReminder;
 import com.reminder.R;
 
+import java.util.Collections;
 import java.util.List;
 
 public class AllCallRemindersActivity extends BaseActivity {

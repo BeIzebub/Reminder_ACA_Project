@@ -24,6 +24,7 @@ import com.reminder.R;
 import com.reminder.mobile_activities.services.SMSReceiver;
 import com.reminder.mobile_activities.services.SMSService;
 
+import java.util.Collections;
 import java.util.List;
 
 public class AllSMSRemindersActivity extends BaseActivity {
