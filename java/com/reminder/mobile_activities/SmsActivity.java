@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -193,7 +194,8 @@ public class SmsActivity extends BaseActivity {
                     if(! commentEdit.getText().toString().matches("")) {
                         myIntent.putExtra("comment", commentEdit.getText().toString());
                     }
-                    int id = (int) (Calendar.getInstance().getTimeInMillis() / 1000);
+                    int id = RemindersDB.getInstance(this).addSmsReminder(r);
+                    Log.e("ADDED", id + "");
                     PendingIntent pendingIntent;
                     pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), id, myIntent, PendingIntent.FLAG_ONE_SHOT);
                     AlarmManager alarmManager = (AlarmManager) getApplication().getSystemService(Context.ALARM_SERVICE);

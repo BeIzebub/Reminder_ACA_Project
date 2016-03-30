@@ -38,10 +38,11 @@ public class RemindersDB implements ReminderFunctionality, CallFunctionality, SM
     }
 
     @Override
-    public void addCallReminder(CallReminder r) {
+    public int addCallReminder(CallReminder r) {
         cq.open();
-        cq.addCallReminder(r);
+        int id = cq.addCallReminder(r);
         cq.close();
+        return id;
     }
 
     @Override
@@ -106,10 +107,11 @@ public class RemindersDB implements ReminderFunctionality, CallFunctionality, SM
     }
 
     @Override
-    public void addSmsReminder(SMSReminder r) {
+    public int addSmsReminder(SMSReminder r) {
         sq.open();
-        sq.addSmsReminder(r);
+        int id = sq.addSmsReminder(r);
         sq.close();
+        return id;
     }
 
     @Override
