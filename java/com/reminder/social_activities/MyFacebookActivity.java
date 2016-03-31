@@ -1,5 +1,6 @@
 package com.reminder.social_activities;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
@@ -7,6 +8,7 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -15,15 +17,28 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 import com.reminder.BaseActivity;
 import com.reminder.R;
 import com.reminder.social_activities.social_service.FacebookReceiver;
 
+import java.util.Arrays;
 import java.util.Calendar;
 
 public class MyFacebookActivity extends BaseActivity {
 
+    private static final String TAG = "FB";
     private Button shareBtn;
+    public static CallbackManager callbackManager;
+    private boolean isFBLogin = false;
+
+    private Button login;
+
     private EditText text;
     private TextView time;
     private TextView date;
@@ -34,13 +49,17 @@ public class MyFacebookActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(this.getApplicationContext());
         setContentView(R.layout.activity_my_facebook);
+
         setTitle("Facebook");
+
         text = (EditText) findViewById(R.id.shareText);
         shareBtn = (Button) findViewById(R.id.shareBtn);
         date = (TextView) findViewById(R.id.dateText);
         time = (TextView) findViewById(R.id.timeText);
 
+        login = (Button) findViewById(R.id.login);
 
         selected = Calendar.getInstance();
         selectedDay = selected.get(Calendar.DAY_OF_MONTH);
@@ -111,36 +130,45 @@ public class MyFacebookActivity extends BaseActivity {
                 }
             }
         });
+
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onFbLogin(MyFacebookActivity.this);
+            }
+        });
     }
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        FacebookSdk.sdkInitialize(getApplicationContext());
-//        setContentView(R.layout.activity_my_facebook);
-//        setTitle("Facebook");
-//
-//        share = (Button) findViewById(R.id.share);
-//        send = (Button) findViewById(R.id.send);
-//        shareText = (EditText) findViewById(R.id.shareText);
-//
-//        final ShareLinkContent shareLinkContent = new ShareLinkContent.Builder().build();
-//
-//        share.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-//                ClipData clip = ClipData.newPlainText("label", shareText.getText().toString());
-//                clipboard.setPrimaryClip(clip);
-//                ShareDialog.show(MyFacebookActivity.this, shareLinkContent);
-//            }
-//        });
-//
-//
-//        send.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                MessageDialog.show(MyFacebookActivity.this, shareLinkContent);
-//            }
-//        });
-//    }
+
+    public static void onFbLogin(Context context) {
+        callbackManager = CallbackManager.Factory.create();
+
+        // Set permissions
+        LoginManager.getInstance().logInWithReadPermissions((Activity) context, Arrays.asList("email", "user_photos", "public_profile"));
+
+        LoginManager.getInstance().logInWithPublishPermissions((Activity) context, Arrays.asList("publish_actions"));
+        LoginManager.getInstance().registerCallback(callbackManager,
+                new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+
+                        System.out.println("Success");
+                    }
+                    @Override
+                    public void onCancel() {
+                        Log.d(TAG,"On cancel");
+                    }
+
+                    @Override
+                    public void onError(FacebookException error) {
+                        Log.d(TAG, error.toString());
+                    }
+                });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
 }

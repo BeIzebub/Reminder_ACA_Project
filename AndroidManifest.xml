@@ -39,6 +39,7 @@
             android:exported="true" />
 
         <activity android:name=".social_activities.MyFacebookActivity" />
+
         <activity android:name=".mobile_activities.SmsActivity" />
         <activity android:name=".social_activities.MyTwitterActivity" />
         <activity android:name=".social_activities.GooglePlusActivity" />

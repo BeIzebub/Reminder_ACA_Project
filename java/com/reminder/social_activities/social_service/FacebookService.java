@@ -30,8 +30,8 @@ public class FacebookService extends IntentService {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Notification notif = new Notification.Builder(this)
-                .setContentTitle("Notification")
-                .setContentText("Time to post on Facebook")
+                .setContentTitle("Reminder")
+                .setContentText("Your message if posted to Facebook")
                 .setContentIntent(pendingIntent)
                 .addAction(R.mipmap.ic_launcher, "Post", pendingIntent)
                 .setSmallIcon(R.mipmap.ic_launcher)
