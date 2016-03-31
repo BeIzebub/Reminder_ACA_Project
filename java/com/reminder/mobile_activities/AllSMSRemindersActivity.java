@@ -76,7 +76,6 @@ public class AllSMSRemindersActivity extends BaseActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                SmsActivity.needEdit = true;
                 Intent i = new Intent(AllSMSRemindersActivity.this, SmsActivity.class);
                 i.putExtra("sms", db.getAllSmsReminders().get(position));
                 startActivity(i);
@@ -118,6 +117,6 @@ public class AllSMSRemindersActivity extends BaseActivity {
             List<SMSReminder> rems = RemindersDB.getInstance(this).getAllSmsReminders();
             CustomAdapterForSMS adapter = new CustomAdapterForSMS(this, rems);
             listView.setAdapter(adapter);
-        super.onActivityResult(requestCode, resultCode, data);
+            super.onActivityResult(requestCode, resultCode, data);
     }
 }

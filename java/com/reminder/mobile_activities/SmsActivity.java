@@ -180,9 +180,6 @@ public class SmsActivity extends BaseActivity {
                     Toast.makeText(SmsActivity.this, "Time must be future", Toast.LENGTH_SHORT).show();
                 } else {
                     SMSReminder r = new SMSReminder(commentEdit.getText().toString(), newCalendar.getTimeInMillis(), phoneEdit.getText().toString(), textEdit.getText().toString());
-                    Intent i = new Intent();
-                    i.putExtra("r", r);
-                    setResult(0, i);
                     phone = phoneEdit.getText().toString();
                     text = textEdit.getText().toString();
                     Intent intent = new Intent(SmsActivity.this, SMSReceiver.class);
