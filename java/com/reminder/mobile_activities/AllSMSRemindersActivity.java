@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 
 import com.baoyz.swipemenulistview.SwipeMenu;
@@ -72,18 +73,30 @@ public class AllSMSRemindersActivity extends BaseActivity {
 
         listView.setMenuCreator(creator);
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                SmsActivity.needEdit = true;
+                Intent i = new Intent(AllSMSRemindersActivity.this, SmsActivity.class);
+                i.putExtra("sms", db.getAllSmsReminders().get(position));
+                startActivity(i);
+            }
+        });
         listView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
-                //******
                 Intent myIntent = new Intent(AllSMSRemindersActivity.this, SMSReceiver.class);
                 PendingIntent pendingIntent;
-
-                pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), rems.get(position).getId(), myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                AlarmManager alarmManager = (AlarmManager) getApplication().getSystemService(Context.ALARM_SERVICE);
-                pendingIntent.cancel();
-                alarmManager.cancel(pendingIntent);
-                //******
+                init();
+                boolean alarmUp = (PendingIntent.getBroadcast(AllSMSRemindersActivity.this, rems.get(position).getId(),
+                        new Intent(AllSMSRemindersActivity.this,SMSReceiver.class),
+                        PendingIntent.FLAG_ONE_SHOT) != null);
+                if (alarmUp)
+                {
+                    pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), rems.get(position).getId(), myIntent,PendingIntent.FLAG_ONE_SHOT);
+                    AlarmManager alarmManager = (AlarmManager) getApplication().getSystemService(Context.ALARM_SERVICE);
+                    alarmManager.cancel(pendingIntent);
+                }
                 db.deleteSmsReminder(rems.get(position).getId());
                 init();
                 adapter.notifyDataSetChanged();
