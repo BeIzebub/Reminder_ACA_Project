@@ -37,7 +37,7 @@ public class SMSQueries implements SMSFunctionality{
     }
 
     @Override
-    public void addSmsReminder(SMSReminder sms) {
+    public int addSmsReminder(SMSReminder sms) {
         ReminderQueries rq = new ReminderQueries(context);
         rq.open();
         int id = rq.addReminder(sms);
@@ -47,6 +47,7 @@ public class SMSQueries implements SMSFunctionality{
         values.put(SMSReminderTable.COLUMN_RECEIVER, sms.getReceiver());
         values.put(SMSReminderTable.COLUMN_TEXT, sms.getText());
         database.insert(SMSReminderTable.TABLE_NAME, null, values);
+        return id;
     }
 
     @Override

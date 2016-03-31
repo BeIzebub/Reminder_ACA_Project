@@ -15,7 +15,7 @@ public class Sender extends Activity {
         if (action.equals("c")) {
             Intent emailIntent = new Intent(Intent.ACTION_SEND);
             Intent i = getIntent();
-            emailIntent.setType("text/plain");
+            emailIntent.setType("message/rfc822");
             String[] s =  new String[]{(String) i.getExtras().get("to")};
             emailIntent.putExtra(Intent.EXTRA_EMAIL, s);
             emailIntent.putExtra(Intent.EXTRA_SUBJECT, (String) i.getExtras().get("subject"));

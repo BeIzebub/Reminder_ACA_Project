@@ -1,50 +1,110 @@
 package com.reminder.other_activities;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.baoyz.swipemenulistview.SwipeMenu;
+import com.baoyz.swipemenulistview.SwipeMenuCreator;
+import com.baoyz.swipemenulistview.SwipeMenuItem;
+import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.reminder.BaseActivity;
 import com.reminder.CustomAdapter;
 import com.reminder.DAO.RemindersDB;
 import com.reminder.DAO.objects.Reminder;
 import com.reminder.R;
 
+import java.util.Collections;
 import java.util.List;
 
 public class AllSimpleRemindersActivity extends BaseActivity {
 
-    ListView listView;
+    private SwipeMenuListView listView;
+    private FloatingActionButton fab;
+    private List<Reminder> rems;
+    private CustomAdapter adapter;
+    private RemindersDB db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_simple_reminders);
         setTitle("Simple reminders");
 
-        listView = (ListView) findViewById(R.id.simpleRems);
-        Button add = (Button) findViewById(R.id.addSimpleRem);
+      //  fab = (FloatingActionButton) findViewById(R.id.fab);
+       // fab.setOnClickListener(new View.OnClickListener() {
+       //     @Override
+       //     public void onClick(View v) {
+      //          startActivityForResult(new Intent(AllSimpleRemindersActivity.this, SimpleReminderActivity.class), 0);
+      //      }
+     //   });
+        listView = (SwipeMenuListView) findViewById(R.id.simpleRems);
+        db = RemindersDB.getInstance(this);
+        init();
 
-        List<Reminder> rems = RemindersDB.getInstance(this).getAllSimpleReminders();
-        CustomAdapter adapter = new CustomAdapter(this, rems);
-        listView.setAdapter(adapter);
-
-        add.setOnClickListener(new View.OnClickListener() {
+        SwipeMenuCreator creator = new SwipeMenuCreator() {
             @Override
-            public void onClick(View v) {
-                startActivityForResult(new Intent(AllSimpleRemindersActivity.this, SimpleReminderActivity.class), 0);
+            public void create(SwipeMenu menu) {
+                SwipeMenuItem deleteItem = new SwipeMenuItem(
+                        getApplicationContext());
+                deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9,
+                        0x3F, 0x25)));
+                Display display = getWindowManager().getDefaultDisplay();
+                deleteItem.setWidth(display.getWidth()/2);
+                deleteItem.setTitle("Delete this reminder?");
+                deleteItem.setTitleSize(18);
+                deleteItem.setTitleColor(Color.WHITE);
+                deleteItem.setIcon(android.R.drawable.ic_menu_delete);
+                menu.addMenuItem(deleteItem);
+            }
+        };
+
+        listView.setMenuCreator(creator);
+
+        listView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+                final Reminder r = rems.get(position);
+                db.deleteReminder(rems.get(position).getId());
+                init();
+                adapter.notifyDataSetChanged();
+                final Snackbar snackbar = Snackbar.make(listView, "Reminder deleted", Snackbar.LENGTH_LONG);
+                snackbar.setAction("Undo", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        db.addReminder(r);
+                        init();
+                        snackbar.dismiss();
+                    }
+                });
+                snackbar.show();
+                return false;
             }
         });
+
+        listView.setSwipeDirection(SwipeMenuListView.DIRECTION_LEFT);
+    }
+
+    private void init() {
+        rems = db.getAllSimpleReminders();
+    //    Collections.sort(rems);
+        adapter = new CustomAdapter(this, rems);
+        listView.setAdapter(adapter);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (data != null) {
-            RemindersDB.getInstance(this).addReminder((Reminder) data.getSerializableExtra("r"));
-            List<Reminder> rems = RemindersDB.getInstance(this).getAllSimpleReminders();
-            CustomAdapter adapter = new CustomAdapter(this, rems);
-            listView.setAdapter(adapter);
+            db.addReminder((Reminder) data.getSerializableExtra("r"));
+            init();
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

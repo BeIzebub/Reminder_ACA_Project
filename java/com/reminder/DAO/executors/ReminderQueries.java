@@ -72,7 +72,7 @@ public class ReminderQueries implements ReminderFunctionality{
     public List<Reminder> getAllReminders() {
         List<Reminder> reminders = new ArrayList<>();
 
-        Cursor cursor = database.query(ReminderTable.TABLE_NAME, allColumns, null, null, null, null, null);
+        Cursor cursor = database.query(ReminderTable.TABLE_NAME, allColumns, null, null, null, null,  ReminderTable.COLUMN_TIME + " ASC");
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Reminder reminder = new Reminder(cursor.getInt(0),cursor.getString(1), cursor.getString(2), cursor.getLong(3), cursor.getInt(4));
@@ -87,7 +87,7 @@ public class ReminderQueries implements ReminderFunctionality{
     public List<Reminder> getAllSimpleReminders() {
         List<Reminder> reminders = new ArrayList<>();
 
-        Cursor cursor = database.query(ReminderTable.TABLE_NAME, allColumns, null, null, null, null, null);
+        Cursor cursor = database.query(ReminderTable.TABLE_NAME, allColumns, null, null, null, null, ReminderTable.COLUMN_TIME + " ASC");
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             if (cursor.getInt(4) == Reminder.SIMPLE) {

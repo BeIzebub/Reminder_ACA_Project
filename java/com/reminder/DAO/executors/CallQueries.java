@@ -36,7 +36,7 @@ public class CallQueries implements CallFunctionality{
     }
 
     @Override
-    public void addCallReminder(CallReminder r) {
+    public int addCallReminder(CallReminder r) {
         ReminderQueries rq = new ReminderQueries(context);
         rq.open();
         int id = rq.addReminder(r);
@@ -45,6 +45,7 @@ public class CallQueries implements CallFunctionality{
         values.put(CallReminderTable.COLUMN_ID, id);
         values.put(CallReminderTable.COLUMN_RECEIVER, r.getReceiver());
         database.insert(CallReminderTable.TABLE_NAME, null, values);
+        return id;
     }
 
     @Override

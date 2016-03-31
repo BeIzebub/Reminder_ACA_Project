@@ -8,7 +8,7 @@ import java.util.List;
  * Created by Armen on 22.03.2016.
  */
 public interface CallFunctionality {
-    void addCallReminder(CallReminder r);
+    int addCallReminder(CallReminder r);
     void editCallReminder(CallReminder r);
     void deleteCallReminder(int id);
     List<CallReminder> getAllCallReminders();

@@ -77,7 +77,7 @@ public class CallActivity extends BaseActivity {
         call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (selectedCalendar.getTimeInMillis() < currentCalendar.getTimeInMillis())
+                if (selectedCalendar.getTimeInMillis() < System.currentTimeMillis())
                     Toast.makeText(CallActivity.this, "Time must be future", Toast.LENGTH_SHORT).show();
                 else {
                     boolean normal = true;

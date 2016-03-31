@@ -6,7 +6,7 @@
     tools:context=".HomePageActivity"
     android:orientation="vertical">
 
-    <ListView
+    <com.baoyz.swipemenulistview.SwipeMenuListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/allReminders"
