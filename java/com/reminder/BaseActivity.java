@@ -15,14 +15,11 @@ import android.widget.FrameLayout;
 
 import com.reminder.mobile_activities.AllCallRemindersActivity;
 import com.reminder.mobile_activities.AllSMSRemindersActivity;
-import com.reminder.mobile_activities.CallActivity;
-import com.reminder.mobile_activities.SmsActivity;
 import com.reminder.other_activities.AllSimpleRemindersActivity;
-import com.reminder.other_activities.SimpleReminderActivity;
 import com.reminder.social_activities.GooglePlusActivity;
 import com.reminder.social_activities.MailActivity;
 import com.reminder.social_activities.MyFacebookActivity;
-import com.reminder.social_activities.MyTwitterActivity;
+import com.reminder.social_activities.ViberActivity;
 
 
 public class BaseActivity extends AppCompatActivity implements
@@ -135,8 +132,8 @@ public class BaseActivity extends AppCompatActivity implements
                 startActivity(new Intent(this, MyFacebookActivity.class));
                 return true;
 
-            case R.id.twitter:
-                startActivity(new Intent(this, MyTwitterActivity.class));
+            case R.id.viber:
+                startActivity(new Intent(this, ViberActivity.class));
                 return true;
 
             case R.id.googlePlus :

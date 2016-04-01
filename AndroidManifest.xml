@@ -41,7 +41,7 @@
         <activity android:name=".social_activities.MyFacebookActivity" />
 
         <activity android:name=".mobile_activities.SmsActivity" />
-        <activity android:name=".social_activities.MyTwitterActivity" />
+        <activity android:name=".social_activities.ViberActivity" />
         <activity android:name=".social_activities.GooglePlusActivity" />
 
         <activity android:name=".mobile_activities.CallActivity"/>

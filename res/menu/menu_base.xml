@@ -29,13 +29,13 @@
             android:icon="@android:drawable/ic_menu_share"
             android:title="Facebook" />
         <item
+            android:id="@+id/viber"
+            android:icon="@android:drawable/ic_menu_share"
+            android:title="Viber" />
+        <item
             android:id="@+id/twitter"
             android:icon="@android:drawable/ic_menu_share"
             android:title="Twitter" />
-        <item
-            android:id="@+id/vk"
-            android:icon="@android:drawable/ic_menu_send"
-            android:title="VK" />
         <item
             android:id="@+id/googlePlus"
             android:icon="@android:drawable/ic_menu_share"
