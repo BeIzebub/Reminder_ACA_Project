@@ -13,4 +13,5 @@ public interface ReminderFunctionality {
     void deleteReminder(int id);
     List<Reminder> getAllReminders();
     List<Reminder> getAllSimpleReminders();
+    List<Reminder> getAllFacebookReminders();
 }

@@ -108,6 +108,14 @@ public class RemindersDB implements ReminderFunctionality, CallFunctionality, SM
     }
 
     @Override
+    public List<Reminder> getAllFacebookReminders() {
+        rq.open();
+        List<Reminder> rems = rq.getAllFacebookReminders();
+        rq.close();
+        return rems;
+    }
+
+    @Override
     public int addSmsReminder(SMSReminder r) {
         sq.open();
         int id = sq.addSmsReminder(r);

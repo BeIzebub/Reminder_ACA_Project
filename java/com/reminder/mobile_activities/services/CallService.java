@@ -7,6 +7,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
 
@@ -45,7 +46,10 @@ public class CallService extends IntentService {
                 .addAction(android.R.drawable.sym_action_call, "Call", pendingIntent)
                 .build();
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        noti.flags |= Notification.FLAG_AUTO_CANCEL;
+        noti.flags |= Notification.FLAG_SHOW_LIGHTS | Notification.FLAG_AUTO_CANCEL;
+        noti.ledARGB = Color.GREEN;
+        noti.ledOnMS = 1000;
+        noti.ledOffMS = 300;
         noti.defaults |= Notification.DEFAULT_SOUND;
         noti.defaults |= Notification.DEFAULT_VIBRATE;
 

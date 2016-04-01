@@ -16,6 +16,11 @@ import android.widget.FrameLayout;
 import com.reminder.mobile_activities.AllCallRemindersActivity;
 import com.reminder.mobile_activities.AllSMSRemindersActivity;
 import com.reminder.other_activities.AllSimpleRemindersActivity;
+<<<<<<< HEAD
+=======
+import com.reminder.other_activities.SimpleReminderActivity;
+import com.reminder.social_activities.AllFacebookReminders;
+>>>>>>> All facebook
 import com.reminder.social_activities.GooglePlusActivity;
 import com.reminder.social_activities.MailActivity;
 import com.reminder.social_activities.MyFacebookActivity;
@@ -110,38 +115,52 @@ public class BaseActivity extends AppCompatActivity implements
         {
             case R.id.all_reminders:
                 startActivity(new Intent(this, HomePageActivity.class));
+                finish();
                 return true;
 
             case R.id.mail:
                 startActivity(new Intent(this, MailActivity.class));
+                finish();
                 return true;
 
             case R.id.reminders:
                 startActivity(new Intent(this, AllSimpleRemindersActivity.class));
+                finish();
                 return true;
 
             case R.id.call:
                 startActivity(new Intent(this, AllCallRemindersActivity.class));
+                finish();
                 return true;
 
             case R.id.sms :
                 startActivity(new Intent(this, AllSMSRemindersActivity.class));
+                finish();
                 return true;
 
             case R.id.facebook:
-                startActivity(new Intent(this, MyFacebookActivity.class));
+                startActivity(new Intent(this, AllFacebookReminders.class));
+                finish();
                 return true;
 
+<<<<<<< HEAD
             case R.id.viber:
                 startActivity(new Intent(this, ViberActivity.class));
+=======
+            case R.id.twitter:
+                startActivity(new Intent(this, MyTwitterActivity.class));
+                finish();
+>>>>>>> All facebook
                 return true;
 
             case R.id.googlePlus :
                 startActivity(new Intent(this, GooglePlusActivity.class));
+                finish();
                 return true;
 
             case R.id.settings :
                 startActivity(new Intent(this, Settings.class));
+                finish();
                 return true;
         }
 

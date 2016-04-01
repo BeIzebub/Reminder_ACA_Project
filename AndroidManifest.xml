@@ -39,22 +39,21 @@
             android:exported="true" />
 
         <activity android:name=".social_activities.MyFacebookActivity" />
-
         <activity android:name=".mobile_activities.SmsActivity" />
         <activity android:name=".social_activities.ViberActivity" />
         <activity android:name=".social_activities.GooglePlusActivity" />
+        <activity android:name=".mobile_activities.CallActivity" />
+        <activity android:name=".social_activities.MailActivity" />
+        <activity android:name=".social_activities.social_service.Sender" />
+        <activity android:name=".social_activities.social_service.FacebookSharer" />
 
-        <activity android:name=".mobile_activities.CallActivity"/>
-        <activity android:name=".social_activities.MailActivity"/>
+        <receiver android:name=".social_activities.social_service.FacebookReceiver" />
 
-        <activity android:name=".social_activities.social_service.Sender"/>
-        <activity android:name=".social_activities.social_service.FacebookSharer"/>
+        <service android:name=".social_activities.social_service.FacebookService" />
 
-        <receiver android:name=".social_activities.social_service.FacebookReceiver"/>
-        <service android:name=".social_activities.social_service.FacebookService"/>
+        <receiver android:name=".mobile_activities.services.SimpleReceiver" />
 
-        <receiver android:name=".mobile_activities.services.SimpleReceiver"/>
-        <service android:name=".mobile_activities.services.SimpleService"/>
+        <service android:name=".mobile_activities.services.SimpleService" />
 
         <activity android:name=".other_activities.SimpleReminderActivity" />
 
@@ -65,7 +64,6 @@
 
         <service android:name=".social_activities.social_service.FacebookService" />
 
-
         <receiver android:name=".mobile_activities.services.CallReceiver" />
 
         <service android:name=".mobile_activities.services.CallService" />
@@ -73,21 +71,20 @@
 
         <receiver android:name=".social_activities.social_service.MailReceiver" />
 
-        <service android:name=".social_activities.social_service.MailService"/>
-        <receiver android:name=".social_activities.social_service.MailReceiver"/>
+        <service android:name=".social_activities.social_service.MailService" />
 
-        <receiver android:name=".mobile_activities.services.SMSReceiver"/>
-        <service android:name=".mobile_activities.services.SMSService"/>
+        <receiver android:name=".social_activities.social_service.MailReceiver" />
+        <receiver android:name=".mobile_activities.services.SMSReceiver" />
+
+        <service android:name=".mobile_activities.services.SMSService" />
 
         <receiver android:name=".mobile_activities.services.SMSReceiver" />
 
         <service android:name=".mobile_activities.services.SMSService" />
 
         <activity android:name=".mobile_activities.services.NotifyActivityHandler" />
-        <activity android:name=".mobile_activities.AllSMSRemindersActivity"/>
+        <activity android:name=".mobile_activities.AllSMSRemindersActivity" />
+        <activity android:name=".social_activities.AllFacebookReminders"></activity>
     </application>
 
-
 </manifest>
-
-

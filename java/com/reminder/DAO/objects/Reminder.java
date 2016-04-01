@@ -13,7 +13,6 @@ public class Reminder implements Serializable{
     public static final int SMS_REMINDER = 2;
     public static final int GMAIL_REMINDER = 3;
     public static final int FACEBOOK_REMINDER = 4;
-    public static final int TWITTER_REMINDER = 5;
 
     protected int id;
     protected String name;
@@ -24,7 +23,7 @@ public class Reminder implements Serializable{
     public Reminder() {
 
     }
-
+    
     public Reminder(String name, String comment, long time, int type) {
         this.name = name;
         this.timeInMillis = time;
