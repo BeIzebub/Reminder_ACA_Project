@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.facebook.AccessToken;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
@@ -24,7 +23,11 @@ public class FacebookSharer extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
-
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         String action = (String) getIntent().getExtras().get("do_action");
         if (action.equals("sh")) {
             Intent i = getIntent();
@@ -49,9 +52,6 @@ public class FacebookSharer extends Activity {
 
                 @Override
                 public void onError(FacebookException error) {
-                    if(AccessToken.getCurrentAccessToken()==null){
-                        Log.e(TAG, "null");
-                    }
                     Log.e(TAG, error.toString());
                 }
             });
