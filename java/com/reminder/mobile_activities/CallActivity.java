@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -36,7 +37,7 @@ public class CallActivity extends BaseActivity {
     private Uri uriContact;
     private String contactID;
 
-    private ImageButton search;
+    private ImageView search;
     private EditText comment, phone;
     private TextView date, time;
     private Calendar selectedCalendar, currentCalendar;
@@ -50,7 +51,7 @@ public class CallActivity extends BaseActivity {
         db = RemindersDB.getInstance(this);
         Button call = (Button) findViewById(R.id.callBtn);
         phone = (EditText) findViewById(R.id.number);
-        search = (ImageButton) findViewById(R.id.imageButton);
+        search = (ImageView) findViewById(R.id.imageButton);
         date = (TextView) findViewById(R.id.callDate);
         time = (TextView) findViewById(R.id.callTime);
         comment = (EditText) findViewById(R.id.editText3);
@@ -86,9 +87,8 @@ public class CallActivity extends BaseActivity {
                         normal = false;
                     }
                     if (normal) {
-                     //   run();
+                    //    run();
                         CallReminder r = new CallReminder(comment.getText().toString(), selectedCalendar.getTimeInMillis(),  phone.getText().toString());
-                    //    db.addCallReminder(r);
                         Intent i = new Intent();
                         i.putExtra("r", r);
                         setResult(0, i);
@@ -134,15 +134,6 @@ public class CallActivity extends BaseActivity {
                 d.show();
             }
         });
-    }
-
-    private void run() {
-        Intent myIntent = new Intent(this, CallReceiver.class);
-        myIntent.putExtra("n", phone.getText().toString());
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this,  0, myIntent, 0);
-
-        AlarmManager alarmManager = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, selectedCalendar.getTimeInMillis(), pendingIntent);
     }
 
     @Override

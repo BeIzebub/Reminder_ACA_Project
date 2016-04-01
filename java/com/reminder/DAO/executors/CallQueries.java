@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.reminder.DAO.DBHelper;
 import com.reminder.DAO.executors.functionality.CallFunctionality;
@@ -66,7 +67,7 @@ public class CallQueries implements CallFunctionality{
         String query = "SELECT reminders.id, reminders.comment, reminders.time, calls.receiver " +
                 "FROM reminders " +
                 "INNER JOIN calls " +
-                "ON reminders.id = calls.reminder_id ";
+                "ON reminders.id = calls.reminder_id";
 
         Cursor cursor = database.rawQuery(query, null);
         cursor.moveToFirst();

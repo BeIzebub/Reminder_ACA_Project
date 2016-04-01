@@ -1,22 +1,31 @@
 package com.reminder.mobile_activities;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 import com.reminder.BaseActivity;
 import com.reminder.CustomAdapterForCalls;
 import com.reminder.DAO.RemindersDB;
 import com.reminder.DAO.objects.CallReminder;
+import com.reminder.DAO.objects.Reminder;
 import com.reminder.R;
+import com.reminder.mobile_activities.services.CallReceiver;
+import com.reminder.other_activities.SimpleReminderActivity;
 
 import java.util.Collections;
 import java.util.List;
@@ -35,15 +44,7 @@ public class AllCallRemindersActivity extends BaseActivity {
         setTitle("Call reminders");
 
         listView = (SwipeMenuListView) findViewById(R.id.allCalls);
-        Button add = (Button) findViewById(R.id.addCall);
         db = RemindersDB.getInstance(this);
-
-        add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivityForResult(new Intent(AllCallRemindersActivity.this, CallActivity.class), 0);
-            }
-        });
         init();
 
         SwipeMenuCreator creator = new SwipeMenuCreator() {
@@ -68,14 +69,37 @@ public class AllCallRemindersActivity extends BaseActivity {
         listView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+                final CallReminder r = rems.get(position);
                 db.deleteCallReminder(rems.get(position).getId());
                 init();
                 adapter.notifyDataSetChanged();
+                final Snackbar snackbar = Snackbar.make(listView, "Reminder deleted", Snackbar.LENGTH_LONG);
+                snackbar.setAction("Undo", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        db.addCallReminder(r);
+                        init();
+                        snackbar.dismiss();
+                    }
+                });
+                snackbar.show();
                 return false;
             }
         });
 
         listView.setSwipeDirection(SwipeMenuListView.DIRECTION_LEFT);
+
+        ImageView icon = new ImageView(this);
+        icon.setImageResource(android.R.drawable.ic_input_add);
+        FloatingActionButton fab = new FloatingActionButton.Builder(this)
+                .setContentView(icon)
+                .build();
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(new Intent(AllCallRemindersActivity.this, CallActivity.class), 0);
+            }
+        });
     }
 
     private void init() {
@@ -87,11 +111,20 @@ public class AllCallRemindersActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (data != null) {
-            RemindersDB.getInstance(this).addCallReminder((CallReminder) data.getSerializableExtra("r"));
-            List<CallReminder> rems = RemindersDB.getInstance(this).getAllCallReminders();
-            CustomAdapterForCalls adapter = new CustomAdapterForCalls(this, rems);
-            listView.setAdapter(adapter);
+            CallReminder call = (CallReminder) data.getSerializableExtra("r");
+            int id =  db.addCallReminder(call);
+            init();
+            run(call, id);
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void run(CallReminder r, int id) {
+        Intent myIntent = new Intent(this, CallReceiver.class);
+        myIntent.putExtra("n", r.getReceiver());
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this,  id, myIntent, PendingIntent.FLAG_ONE_SHOT);
+
+        AlarmManager alarmManager = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, r.getTimeInMillis(), pendingIntent);
     }
 }

@@ -1,13 +1,17 @@
 package com.reminder;
 
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -15,7 +19,12 @@ import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
+import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 import com.reminder.DAO.RemindersDB;
+import com.reminder.DAO.executors.CallQueries;
+import com.reminder.DAO.objects.CallReminder;
 import com.reminder.DAO.objects.Reminder;
 
 import java.util.ArrayList;
@@ -27,6 +36,7 @@ public class HomePageActivity extends BaseActivity {
     private SwipeMenuListView listView;
     private CustomAdapter adapter;
     private RemindersDB db;
+    private List<CallReminder> allCalls;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +66,7 @@ public class HomePageActivity extends BaseActivity {
         };
 
         listView.setMenuCreator(creator);
+        allCalls = db.getAllCallReminders();
 
         listView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
             @Override
@@ -68,7 +79,20 @@ public class HomePageActivity extends BaseActivity {
                 snackbar.setAction("Undo", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        db.addReminder(r);
+                        switch (r.getType()) {
+                            case Reminder.SIMPLE:
+                                db.addReminder(r);
+                                break;
+                            case Reminder.CALL_REMINDER:
+                                for (int i = 0; i < calls.size(); ++i) {
+                                    if (allCalls.get(i).getId() == r.getId()) {
+                                        db.addCallReminder(allCalls.get(i));
+                                        allCalls = db.getAllCallReminders();
+                                        break;
+                                    }
+                                }
+                                break;
+                        }
                         init();
                         snackbar.dismiss();
                     }

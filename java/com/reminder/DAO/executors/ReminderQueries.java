@@ -42,7 +42,10 @@ public class ReminderQueries implements ReminderFunctionality{
 
     public int addReminder(Reminder r) {
         ContentValues values = new ContentValues();
-        values.put(ReminderTable.COLUMN_COMMENT, r.getComment());
+        if (r.getComment() != null)
+            values.put(ReminderTable.COLUMN_COMMENT, r.getComment());
+        else
+            values.put(ReminderTable.COLUMN_COMMENT, "");
         values.put(ReminderTable.COLUMN_NAME, r.getName());
         values.put(ReminderTable.COLUMN_TIME, r.getTimeInMillis());
         values.put(ReminderTable.COLUMN_TYPE, r.getType());

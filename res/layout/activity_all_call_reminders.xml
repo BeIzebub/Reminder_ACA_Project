@@ -5,14 +5,6 @@
     android:layout_height="match_parent"
     tools:context="com.reminder.mobile_activities.AllCallRemindersActivity">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add"
-        android:id="@+id/addCall"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true" />
-
     <com.baoyz.swipemenulistview.SwipeMenuListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -20,6 +12,5 @@
         android:layout_alignParentTop="true"
         android:dividerHeight="0dp"
         android:divider="@null"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@+id/addCall" />
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

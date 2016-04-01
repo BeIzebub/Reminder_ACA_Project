@@ -38,8 +38,8 @@ public class CallService extends IntentService {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Notification noti = new Notification.Builder(this)
-                .setContentTitle("Your scheduled call is ready")
-                .setContentText("You scheduled call to " + s)
+                .setContentTitle("Scheduled call to " + s)
+                .setContentText("Tap to call")
                 .setContentIntent(pendingIntent)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .addAction(android.R.drawable.sym_action_call, "Call", pendingIntent)

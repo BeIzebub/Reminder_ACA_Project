@@ -1,28 +1,31 @@
 package com.reminder.other_activities;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ListView;
+import android.widget.ImageView;
 
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 import com.reminder.BaseActivity;
 import com.reminder.CustomAdapter;
 import com.reminder.DAO.RemindersDB;
+import com.reminder.DAO.objects.CallReminder;
 import com.reminder.DAO.objects.Reminder;
 import com.reminder.R;
+import com.reminder.mobile_activities.services.CallReceiver;
+import com.reminder.mobile_activities.services.SimpleReceiver;
 
-import java.util.Collections;
 import java.util.List;
 
 public class AllSimpleRemindersActivity extends BaseActivity {
@@ -39,16 +42,21 @@ public class AllSimpleRemindersActivity extends BaseActivity {
         setContentView(R.layout.activity_all_simple_reminders);
         setTitle("Simple reminders");
 
-      //  fab = (FloatingActionButton) findViewById(R.id.fab);
-       // fab.setOnClickListener(new View.OnClickListener() {
-       //     @Override
-       //     public void onClick(View v) {
-      //          startActivityForResult(new Intent(AllSimpleRemindersActivity.this, SimpleReminderActivity.class), 0);
-      //      }
-     //   });
         listView = (SwipeMenuListView) findViewById(R.id.simpleRems);
         db = RemindersDB.getInstance(this);
         init();
+
+        ImageView icon = new ImageView(this);
+        icon.setImageResource(android.R.drawable.ic_input_add);
+        FloatingActionButton fab = new FloatingActionButton.Builder(this)
+                .setContentView(icon)
+                .build();
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(new Intent(AllSimpleRemindersActivity.this, SimpleReminderActivity.class), 0);
+            }
+        });
 
         SwipeMenuCreator creator = new SwipeMenuCreator() {
             @Override
@@ -95,7 +103,6 @@ public class AllSimpleRemindersActivity extends BaseActivity {
 
     private void init() {
         rems = db.getAllSimpleReminders();
-    //    Collections.sort(rems);
         adapter = new CustomAdapter(this, rems);
         listView.setAdapter(adapter);
     }
@@ -103,9 +110,20 @@ public class AllSimpleRemindersActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (data != null) {
-            db.addReminder((Reminder) data.getSerializableExtra("r"));
+            Reminder r = (Reminder) data.getSerializableExtra("r");
+            int id = db.addReminder(r);
             init();
+            run(r, id);
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void run(Reminder r, int id) {
+        Intent myIntent = new Intent(this, SimpleReceiver.class);
+        myIntent.putExtra("n", r.getName());
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this,  id, myIntent, PendingIntent.FLAG_ONE_SHOT);
+
+        AlarmManager alarmManager = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, r.getTimeInMillis(), pendingIntent);
     }
 }

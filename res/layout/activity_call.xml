@@ -80,14 +80,13 @@
         android:layout_marginTop="67dp"
         android:layout_alignEnd="@+id/callTime" />
 
-    <ImageButton
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageButton"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_above="@+id/textView2"
-        android:src="@drawable/ic_contact_mail_black_36dp"
-        android:background="#ffffff" />
+        android:src="@drawable/ic_contact_mail_black_36dp" />
 
 </RelativeLayout>
