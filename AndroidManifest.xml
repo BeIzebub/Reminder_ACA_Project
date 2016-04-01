@@ -84,7 +84,7 @@
 
         <activity android:name=".mobile_activities.services.NotifyActivityHandler" />
         <activity android:name=".mobile_activities.AllSMSRemindersActivity" />
-        <activity android:name=".social_activities.AllFacebookReminders"></activity>
+        <activity android:name=".social_activities.AllFacebookReminders"/>
     </application>
 
 </manifest>

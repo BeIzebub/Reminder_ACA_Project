@@ -24,6 +24,8 @@ import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.reminder.BaseActivity;
+import com.reminder.DAO.RemindersDB;
+import com.reminder.DAO.objects.Reminder;
 import com.reminder.R;
 import com.reminder.social_activities.social_service.FacebookReceiver;
 
@@ -46,6 +48,8 @@ public class MyFacebookActivity extends BaseActivity {
     private Calendar selected;
     private int selectedDay, selectedMonth, selectedYear, selectedHour, selectedMinute;
 
+    private RemindersDB db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +57,8 @@ public class MyFacebookActivity extends BaseActivity {
         setContentView(R.layout.activity_my_facebook);
 
         setTitle("Facebook");
+
+        db = RemindersDB.getInstance(this);
 
         text = (EditText) findViewById(R.id.shareText);
         shareBtn = (Button) findViewById(R.id.shareBtn);
@@ -113,7 +119,7 @@ public class MyFacebookActivity extends BaseActivity {
             public void onClick(View v) {
                 c = Calendar.getInstance();
 
-                if (selected.getTimeInMillis() < c.getTimeInMillis()) {
+                if (System.currentTimeMillis() < c.getTimeInMillis()) {
                     Toast.makeText(MyFacebookActivity.this, "Time must be future", Toast.LENGTH_SHORT).show();
                 } else {
                     Intent intent = new Intent(MyFacebookActivity.this, FacebookReceiver.class);
@@ -127,6 +133,12 @@ public class MyFacebookActivity extends BaseActivity {
                     PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), id, myIntent, PendingIntent.FLAG_ONE_SHOT);
                     AlarmManager alarmManager = (AlarmManager) getApplication().getSystemService(Context.ALARM_SERVICE);
                     alarmManager.setExact(AlarmManager.RTC_WAKEUP, selected.getTimeInMillis(), pendingIntent);
+
+                    Reminder r = new Reminder(text.getText().toString(), "", selected.getTimeInMillis(), Reminder.FACEBOOK_REMINDER);
+                    Intent i = new Intent();
+                    i.putExtra("r", r);
+                    setResult(0, i);
+                    finish();
                 }
             }
         });

@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import com.reminder.BaseActivity;
 import com.reminder.DAO.RemindersDB;
-import com.reminder.DAO.objects.CallReminder;
 import com.reminder.DAO.objects.Reminder;
 import com.reminder.R;
 
@@ -69,7 +68,7 @@ public class SimpleReminderActivity extends BaseActivity {
                     if (normal) {
                         //   run();
                         Reminder r = new Reminder(name.getText().toString(), comment.getText().toString(), selectedCalendar.getTimeInMillis(), Reminder.SIMPLE);
-                    //    db.addReminder(r);
+                        //    db.addReminder(r);
                         Intent i = new Intent();
                         i.putExtra("r", r);
                         setResult(0, i);

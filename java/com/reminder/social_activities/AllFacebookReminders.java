@@ -19,7 +19,6 @@ import com.reminder.CustomAdapter;
 import com.reminder.DAO.RemindersDB;
 import com.reminder.DAO.objects.Reminder;
 import com.reminder.R;
-import com.reminder.other_activities.SimpleReminderActivity;
 
 import java.util.List;
 
@@ -97,5 +96,15 @@ public class AllFacebookReminders extends BaseActivity {
         reminders = db.getAllFacebookReminders();
         adapter = new CustomAdapter(this, reminders);
         listView.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (data != null) {
+            Reminder rem = (Reminder) data.getSerializableExtra("r");
+            int id =  db.addReminder(rem);
+            init();
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
