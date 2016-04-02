@@ -91,7 +91,6 @@ public class SimpleReminderActivity extends BaseActivity {
                 d.show();
             }
         });
-
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -105,7 +104,7 @@ public class SimpleReminderActivity extends BaseActivity {
                         else {
                             boolean normal = true;
                             if (name.getText().toString().equals("")) {
-                                name.setError("Input name");
+                                name.setError("Enter name");
                                 normal = false;
                             }
                             if (normal) {
