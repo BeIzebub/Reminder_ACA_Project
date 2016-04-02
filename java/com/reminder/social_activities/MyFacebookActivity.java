@@ -9,8 +9,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -35,11 +36,7 @@ import java.util.Calendar;
 public class MyFacebookActivity extends BaseActivity {
 
     private static final String TAG = "FB";
-    private Button shareBtn;
     public static CallbackManager callbackManager;
-    private boolean isFBLogin = false;
-
-    private Button login;
 
     private EditText text;
     private TextView time;
@@ -61,11 +58,8 @@ public class MyFacebookActivity extends BaseActivity {
         db = RemindersDB.getInstance(this);
 
         text = (EditText) findViewById(R.id.shareText);
-        shareBtn = (Button) findViewById(R.id.shareBtn);
         date = (TextView) findViewById(R.id.dateText);
         time = (TextView) findViewById(R.id.timeText);
-
-        login = (Button) findViewById(R.id.login);
 
         selected = Calendar.getInstance();
         selectedDay = selected.get(Calendar.DAY_OF_MONTH);
@@ -114,40 +108,7 @@ public class MyFacebookActivity extends BaseActivity {
             }
         });
 
-        shareBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                c = Calendar.getInstance();
-
-                if (System.currentTimeMillis() < c.getTimeInMillis()) {
-                    Toast.makeText(MyFacebookActivity.this, "Time must be future", Toast.LENGTH_SHORT).show();
-                } else {
-                    Intent intent = new Intent(MyFacebookActivity.this, FacebookReceiver.class);
-                    startService(intent);
-                    Toast.makeText(getApplicationContext(), "Facebook post scheduled", Toast.LENGTH_SHORT).show();
-                    Intent myIntent = new Intent(getApplicationContext(), FacebookReceiver.class);
-                    myIntent.putExtra("text", text.getText().toString());
-
-                    Reminder r = new Reminder(text.getText().toString(), "", selected.getTimeInMillis(), Reminder.FACEBOOK_REMINDER);
-                    int id = RemindersDB.getInstance(getApplicationContext()).addReminder(r);
-                    PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), id, myIntent, PendingIntent.FLAG_ONE_SHOT);
-                    AlarmManager alarmManager = (AlarmManager) getApplication().getSystemService(Context.ALARM_SERVICE);
-                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, selected.getTimeInMillis(), pendingIntent);
-
-                    Intent i = new Intent();
-                    i.putExtra("r", r);
-                    setResult(0, i);
-                    finish();
-                }
-            }
-        });
-
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onFbLogin(MyFacebookActivity.this);
-            }
-        });
+        onFbLogin(MyFacebookActivity.this);
     }
 
     public static void onFbLogin(Context context) {
@@ -181,5 +142,43 @@ public class MyFacebookActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.add(0, R.menu.menu_for_sms, 0, "Schedule call")
+                .setIcon(R.drawable.ic_done)
+                .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+
+                        if (selected.getTimeInMillis() < System.currentTimeMillis()) {
+                            Toast.makeText(MyFacebookActivity.this, "Time must be future", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Intent intent = new Intent(MyFacebookActivity.this, FacebookReceiver.class);
+                            startService(intent);
+                            Toast.makeText(getApplicationContext(), "Facebook post scheduled", Toast.LENGTH_SHORT).show();
+                            Intent myIntent = new Intent(getApplicationContext(), FacebookReceiver.class);
+                            myIntent.putExtra("text", text.getText().toString());
+
+                            Reminder r = new Reminder(text.getText().toString(), "", selected.getTimeInMillis(), Reminder.FACEBOOK_REMINDER);
+                            int id = RemindersDB.getInstance(getApplicationContext()).addReminder(r);
+                            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), id, myIntent, PendingIntent.FLAG_ONE_SHOT);
+                            AlarmManager alarmManager = (AlarmManager) getApplication().getSystemService(Context.ALARM_SERVICE);
+                            alarmManager.setExact(AlarmManager.RTC_WAKEUP, selected.getTimeInMillis(), pendingIntent);
+
+                            Intent i = new Intent();
+                            i.putExtra("r", r);
+                            setResult(0, i);
+                            finish();
+                        }
+
+                        return false;
+                    }
+                })
+                .setShowAsAction(
+                        MenuItem.SHOW_AS_ACTION_ALWAYS
+                                | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+
+        return true;
     }
 }

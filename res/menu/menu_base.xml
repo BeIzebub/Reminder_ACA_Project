@@ -26,16 +26,12 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/facebook"
-            android:icon="@android:drawable/ic_menu_share"
+            android:icon="@drawable/ic_fb"
             android:title="Facebook" />
         <item
             android:id="@+id/viber"
-            android:icon="@android:drawable/ic_menu_share"
+            android:icon="@drawable/ic_viber"
             android:title="Viber" />
-        <item
-            android:id="@+id/twitter"
-            android:icon="@android:drawable/ic_menu_share"
-            android:title="Twitter" />
         <item
             android:id="@+id/mail"
             android:icon="@android:drawable/ic_menu_send"
