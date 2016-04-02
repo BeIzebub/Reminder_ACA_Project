@@ -18,6 +18,7 @@ import com.reminder.mobile_activities.AllCallRemindersActivity;
 import com.reminder.mobile_activities.AllSMSRemindersActivity;
 import com.reminder.other_activities.AllSimpleRemindersActivity;
 import com.reminder.social_activities.AllFacebookReminders;
+import com.reminder.social_activities.AllViberReminders;
 import com.reminder.social_activities.MailActivity;
 import com.reminder.social_activities.ViberActivity;
 
@@ -140,7 +141,7 @@ public class BaseActivity extends AppCompatActivity implements
                 return true;
 
             case R.id.viber:
-                startActivity(new Intent(this, ViberActivity.class));
+                startActivity(new Intent(this, AllViberReminders.class));
                 finish();
                 return true;
 
