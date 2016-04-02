@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.telephony.SmsManager;
 
 import com.reminder.DAO.RemindersDB;
-import com.reminder.DAO.objects.Reminder;
 import com.reminder.R;
 
 /**
@@ -35,7 +34,7 @@ public class SMSService extends IntentService {
 
     public void createSMSReceiveNotification(String s) {
         String str;
-        if (comment.equals("")) {
+        if (comment==null) {
             str = "Your SMS to " + s + " was sent successfully";
         } else {
             str = "Your SMS to " + s + " was sent successfully: " + comment;
