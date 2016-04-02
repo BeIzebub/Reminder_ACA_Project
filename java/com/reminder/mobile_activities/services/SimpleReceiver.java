@@ -12,6 +12,7 @@ public class SimpleReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Intent i = new Intent(context, SimpleService.class);
         i.putExtra("n", intent.getExtras().getString("n"));
+        i.putExtra("id", intent.getExtras().getInt("id"));
         context.startService(i);
     }
 }

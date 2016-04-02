@@ -6,6 +6,8 @@ import android.app.NotificationManager;
 import android.content.Intent;
 import android.telephony.SmsManager;
 
+import com.reminder.DAO.RemindersDB;
+import com.reminder.DAO.objects.Reminder;
 import com.reminder.R;
 
 /**
@@ -28,6 +30,7 @@ public class SMSService extends IntentService {
         SmsManager manager = SmsManager.getDefault();
         manager.sendTextMessage(phone, null, text, null, null);
         createSMSReceiveNotification(phone);
+        RemindersDB.getInstance(this).deleteSmsReminder(intent.getExtras().getInt("id"));
     }
 
     public void createSMSReceiveNotification(String s) {

@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.content.Intent;
 import android.graphics.Color;
 
+import com.reminder.DAO.RemindersDB;
 import com.reminder.R;
 
 /**
@@ -20,6 +21,7 @@ public class SimpleService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         createSMSReceiveNotification(intent.getExtras().getString("n"));
+        RemindersDB.getInstance(this).deleteReminder(intent.getExtras().getInt("id"));
     }
 
     public void createSMSReceiveNotification(String s) {

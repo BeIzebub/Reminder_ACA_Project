@@ -62,7 +62,17 @@ public class CustomAdapter extends BaseAdapter {
         Reminder reminder = reminders.get(position);
         Calendar c = Calendar.getInstance();
 
-        h.image.setImageResource(R.mipmap.ic_launcher);
+        switch (reminder.getType()) {
+            case Reminder.SIMPLE:
+                h.image.setImageResource(android.R.drawable.ic_lock_idle_alarm);
+                break;
+            case Reminder.CALL_REMINDER:
+                h.image.setImageResource(android.R.drawable.ic_menu_call);
+                break;
+            case Reminder.SMS_REMINDER:
+                h.image.setImageResource(android.R.drawable.ic_menu_edit);
+                break;
+        }
         h.title.setText(reminder.getName());
         c.setTimeInMillis(reminder.getTimeInMillis());
         h.date.setText(c.get(Calendar.DAY_OF_MONTH) + "/" + (c.get(Calendar.MONTH) + 1) + "/" + c.get(Calendar.YEAR));
