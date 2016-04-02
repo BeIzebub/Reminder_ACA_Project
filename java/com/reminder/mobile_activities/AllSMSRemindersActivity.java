@@ -138,10 +138,10 @@ public class AllSMSRemindersActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-            List<SMSReminder> rems = RemindersDB.getInstance(this).getAllSmsReminders();
-            CustomAdapterForSMS adapter = new CustomAdapterForSMS(this, rems);
-            listView.setAdapter(adapter);
-            super.onActivityResult(requestCode, resultCode, data);
+        List<SMSReminder> rems = RemindersDB.getInstance(this).getAllSmsReminders();
+        CustomAdapterForSMS adapter = new CustomAdapterForSMS(this, rems);
+        listView.setAdapter(adapter);
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void run(SMSReminder r, int id) { // wrong?

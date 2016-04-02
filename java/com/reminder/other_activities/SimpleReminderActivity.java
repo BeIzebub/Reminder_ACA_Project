@@ -56,34 +56,6 @@ public class SimpleReminderActivity extends BaseActivity {
         date.setText(selectedDay + "/" + selectedMonth + "/" + selectedYear);
         time.setText(selectedHour + ":" + String.format("%02d\n", selectedMinute));
 
-<<<<<<< HEAD
-        done.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (selectedCalendar.getTimeInMillis() < currentCalendar.getTimeInMillis())
-                    Toast.makeText(SimpleReminderActivity.this, "Time must be future", Toast.LENGTH_SHORT).show();
-                else {
-                    boolean normal = true;
-                    if (name.getText().toString().equals("")) {
-                        name.setError("Input name");
-                        normal = false;
-                    }
-                    if (normal) {
-                        //   run();
-                        Reminder r = new Reminder(name.getText().toString(), comment.getText().toString(), selectedCalendar.getTimeInMillis(), Reminder.SIMPLE);
-                        //    db.addReminder(r);
-                        Intent i = new Intent();
-                        i.putExtra("r", r);
-                        setResult(0, i);
-                        finish();
-                        Toast.makeText(SimpleReminderActivity.this, "Reminder saved", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-        });
-
-=======
->>>>>>> swipe undo(baci facebookic)
         date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

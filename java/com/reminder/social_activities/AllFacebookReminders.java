@@ -1,5 +1,8 @@
 package com.reminder.social_activities;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -18,7 +21,10 @@ import com.reminder.BaseActivity;
 import com.reminder.CustomAdapter;
 import com.reminder.DAO.RemindersDB;
 import com.reminder.DAO.objects.Reminder;
+import com.reminder.DAO.objects.SMSReminder;
 import com.reminder.R;
+import com.reminder.mobile_activities.services.SMSReceiver;
+import com.reminder.social_activities.social_service.FacebookReceiver;
 
 import java.util.List;
 
@@ -72,8 +78,20 @@ public class AllFacebookReminders extends BaseActivity {
         listView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+                init();
                 final Reminder r = reminders.get(position);
-                db.deleteCallReminder(reminders.get(position).getId());
+                Intent myIntent = new Intent(AllFacebookReminders.this, FacebookReceiver.class);
+                PendingIntent pendingIntent;
+                boolean alarmUp = (PendingIntent.getBroadcast(AllFacebookReminders.this, reminders.get(position).getId(),
+                        new Intent(AllFacebookReminders.this,FacebookReceiver.class),
+                        PendingIntent.FLAG_ONE_SHOT) != null);
+                if (alarmUp)
+                {
+                    pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), reminders.get(position).getId(), myIntent,PendingIntent.FLAG_ONE_SHOT);
+                    AlarmManager alarmManager = (AlarmManager) getApplication().getSystemService(Context.ALARM_SERVICE);
+                    alarmManager.cancel(pendingIntent);
+                }
+                db.deleteReminder(reminders.get(position).getId());
                 init();
                 adapter.notifyDataSetChanged();
                 final Snackbar snackbar = Snackbar.make(listView, "Reminder deleted", Snackbar.LENGTH_LONG);
@@ -81,6 +99,7 @@ public class AllFacebookReminders extends BaseActivity {
                     @Override
                     public void onClick(View v) {
                         db.addReminder(r);
+                        run(r, r.getId());
                         init();
                         snackbar.dismiss();
                     }
@@ -100,11 +119,16 @@ public class AllFacebookReminders extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (data != null) {
-            Reminder rem = (Reminder) data.getSerializableExtra("r");
-            int id =  db.addReminder(rem);
-            init();
-        }
+        init();
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void run(Reminder r, int id) { // wrong?
+        Intent myIntent = new Intent(this, FacebookReceiver.class);
+        myIntent.putExtra("text", r.getName());
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, id, myIntent, PendingIntent.FLAG_ONE_SHOT);
+
+        AlarmManager alarmManager = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, r.getTimeInMillis(), pendingIntent);
     }
 }

@@ -43,7 +43,7 @@ public class FacebookService extends IntentService {
     public void createFacebookNotification() {
         Notification notif = new Notification.Builder(this)
                 .setContentTitle("Reminder")
-                .setContentText("Your message if posted to Facebook")
+                .setContentText("Your message is posted to Facebook")
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .build();
 

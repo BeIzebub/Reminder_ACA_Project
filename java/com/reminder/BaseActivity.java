@@ -16,10 +16,7 @@ import android.widget.FrameLayout;
 import com.reminder.mobile_activities.AllCallRemindersActivity;
 import com.reminder.mobile_activities.AllSMSRemindersActivity;
 import com.reminder.other_activities.AllSimpleRemindersActivity;
-<<<<<<< HEAD
-=======
 import com.reminder.other_activities.SimpleReminderActivity;
->>>>>>> swipe undo(baci facebookic)
 import com.reminder.social_activities.AllFacebookReminders;
 import com.reminder.social_activities.GooglePlusActivity;
 import com.reminder.social_activities.MailActivity;
@@ -144,11 +141,8 @@ public class BaseActivity extends AppCompatActivity implements
 
             case R.id.viber:
                 startActivity(new Intent(this, ViberActivity.class));
-<<<<<<< HEAD
                 finish();
                 return true;
-=======
->>>>>>> swipe undo(baci facebookic)
 
             case R.id.googlePlus :
                 startActivity(new Intent(this, GooglePlusActivity.class));

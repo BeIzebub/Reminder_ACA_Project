@@ -128,13 +128,12 @@ public class MyFacebookActivity extends BaseActivity {
                     Intent myIntent = new Intent(getApplicationContext(), FacebookReceiver.class);
                     myIntent.putExtra("text", text.getText().toString());
 
-                    int id = (int) (System.currentTimeMillis() / 1000);
-                    Calendar c = Calendar.getInstance();
+                    Reminder r = new Reminder(text.getText().toString(), "", selected.getTimeInMillis(), Reminder.FACEBOOK_REMINDER);
+                    int id = RemindersDB.getInstance(getApplicationContext()).addReminder(r);
                     PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), id, myIntent, PendingIntent.FLAG_ONE_SHOT);
                     AlarmManager alarmManager = (AlarmManager) getApplication().getSystemService(Context.ALARM_SERVICE);
                     alarmManager.setExact(AlarmManager.RTC_WAKEUP, selected.getTimeInMillis(), pendingIntent);
 
-                    Reminder r = new Reminder(text.getText().toString(), "", selected.getTimeInMillis(), Reminder.FACEBOOK_REMINDER);
                     Intent i = new Intent();
                     i.putExtra("r", r);
                     setResult(0, i);
