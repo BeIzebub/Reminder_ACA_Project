@@ -11,6 +11,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -43,13 +45,13 @@ public class CallActivity extends BaseActivity {
     private Calendar selectedCalendar, currentCalendar;
     private int selectedDay, selectedMonth, selectedYear, selectedHour, selectedMinute;
     private RemindersDB db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_call);
         setTitle("Call");
         db = RemindersDB.getInstance(this);
-        Button call = (Button) findViewById(R.id.callBtn);
         phone = (EditText) findViewById(R.id.number);
         search = (ImageView) findViewById(R.id.imageButton);
         date = (TextView) findViewById(R.id.callDate);
@@ -72,30 +74,6 @@ public class CallActivity extends BaseActivity {
             public void onClick(View v) {
                 Intent i = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
                 startActivityForResult(i, PICK_CONTACT_CALL);
-            }
-        });
-
-        call.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (selectedCalendar.getTimeInMillis() < System.currentTimeMillis())
-                    Toast.makeText(CallActivity.this, "Time must be future", Toast.LENGTH_SHORT).show();
-                else {
-                    boolean normal = true;
-                    if (phone.getText().toString().equals("")) {
-                        phone.setError("Input receiver's number");
-                        normal = false;
-                    }
-                    if (normal) {
-                    //    run();
-                        CallReminder r = new CallReminder(comment.getText().toString(), selectedCalendar.getTimeInMillis(),  phone.getText().toString());
-                        Intent i = new Intent();
-                        i.putExtra("r", r);
-                        setResult(0, i);
-                        finish();
-                        Toast.makeText(CallActivity.this, "Call scheduled", Toast.LENGTH_SHORT).show();
-                    }
-                }
             }
         });
 
@@ -136,9 +114,42 @@ public class CallActivity extends BaseActivity {
         });
     }
 
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.add(0, R.menu.menu_for_sms, 0, "Schedule call")
+                .setIcon(R.drawable.ic_done)
+                .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        if (selectedCalendar.getTimeInMillis() < System.currentTimeMillis())
+                            Toast.makeText(CallActivity.this, "Time must be future", Toast.LENGTH_SHORT).show();
+                        else {
+                            boolean normal = true;
+                            if (phone.getText().toString().equals("")) {
+                                phone.setError("Input receiver's number");
+                                normal = false;
+                            }
+                            if (normal) {
+                                CallReminder r = new CallReminder(comment.getText().toString(), selectedCalendar.getTimeInMillis(), phone.getText().toString());
+                                Intent i = new Intent();
+                                i.putExtra("r", r);
+                                setResult(0, i);
+                                finish();
+                                Toast.makeText(CallActivity.this, "Call scheduled", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        return false;
+                    }
+                })
+                .setShowAsAction(
+                        MenuItem.SHOW_AS_ACTION_ALWAYS
+                                | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+
+        return true;
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(data != null){
+        if (data != null) {
             uriContact = data.getData();
             if (resultCode == RESULT_OK_CALL) {
                 switch (requestCode) {
@@ -168,7 +179,8 @@ public class CallActivity extends BaseActivity {
                         }
                         break;
                 }
-            }}
+            }
+        }
         super.onActivityResult(requestCode, resultCode, data);
     }
 }

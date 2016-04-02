@@ -67,7 +67,8 @@ public class CallQueries implements CallFunctionality{
         String query = "SELECT reminders.id, reminders.comment, reminders.time, calls.receiver " +
                 "FROM reminders " +
                 "INNER JOIN calls " +
-                "ON reminders.id = calls.reminder_id";
+                "ON reminders.id = calls.reminder_id " +
+                "ORDER BY reminders.time ASC";
 
         Cursor cursor = database.rawQuery(query, null);
         cursor.moveToFirst();

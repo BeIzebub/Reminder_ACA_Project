@@ -76,27 +76,6 @@ public class HomePageActivity extends BaseActivity {
                 init();
                 adapter.notifyDataSetChanged();
                 final Snackbar snackbar = Snackbar.make(listView, "Reminder deleted", Snackbar.LENGTH_LONG);
-                snackbar.setAction("Undo", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        switch (r.getType()) {
-                            case Reminder.SIMPLE:
-                                db.addReminder(r);
-                                break;
-                            case Reminder.CALL_REMINDER:
-                                for (int i = 0; i < calls.size(); ++i) {
-                                    if (allCalls.get(i).getId() == r.getId()) {
-                                        db.addCallReminder(allCalls.get(i));
-                                        allCalls = db.getAllCallReminders();
-                                        break;
-                                    }
-                                }
-                                break;
-                        }
-                        init();
-                        snackbar.dismiss();
-                    }
-                });
                 snackbar.show();
                 return false;
             }

@@ -69,7 +69,8 @@ public class SMSQueries implements SMSFunctionality{
         String query = "SELECT reminders.id, reminders.comment, reminders.time, sms.receiver, sms.text " +
                 "FROM reminders " +
                 "INNER JOIN sms " +
-                "ON reminders.id = sms.reminder_id";
+                "ON reminders.id = sms.reminder_id " +
+                "ORDER BY reminders.time ASC";
 
         Cursor cursor  = database.rawQuery(query, null);
         cursor.moveToFirst();

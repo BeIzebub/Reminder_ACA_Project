@@ -25,6 +25,7 @@ import com.reminder.DAO.objects.CallReminder;
 import com.reminder.DAO.objects.Reminder;
 import com.reminder.R;
 import com.reminder.mobile_activities.services.CallReceiver;
+import com.reminder.mobile_activities.services.SMSReceiver;
 import com.reminder.other_activities.SimpleReminderActivity;
 
 import java.util.Collections;
@@ -70,6 +71,18 @@ public class AllCallRemindersActivity extends BaseActivity {
             @Override
             public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
                 final CallReminder r = rems.get(position);
+
+                Intent myIntent = new Intent(AllCallRemindersActivity.this, CallReceiver.class);
+                PendingIntent pendingIntent;
+                boolean alarmUp = (PendingIntent.getBroadcast(AllCallRemindersActivity.this, rems.get(position).getId(),
+                        new Intent(AllCallRemindersActivity.this,CallReceiver.class),
+                        PendingIntent.FLAG_ONE_SHOT) != null);
+                if (alarmUp) {
+                    pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), rems.get(position).getId(), myIntent,PendingIntent.FLAG_ONE_SHOT);
+                    AlarmManager alarmManager = (AlarmManager) getApplication().getSystemService(Context.ALARM_SERVICE);
+                    alarmManager.cancel(pendingIntent);
+                }
+
                 db.deleteCallReminder(rems.get(position).getId());
                 init();
                 adapter.notifyDataSetChanged();
@@ -78,6 +91,7 @@ public class AllCallRemindersActivity extends BaseActivity {
                     @Override
                     public void onClick(View v) {
                         db.addCallReminder(r);
+                        run(r, r.getId());
                         init();
                         snackbar.dismiss();
                     }

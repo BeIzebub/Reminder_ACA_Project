@@ -18,15 +18,8 @@
         android:hint="Phone"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/callDate" />
+        android:layout_toStartOf="@+id/imageButton" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Schedule"
-        android:id="@+id/callBtn"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true" />
 
     <TextView
         android:layout_width="wrap_content"

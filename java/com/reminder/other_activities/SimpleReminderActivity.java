@@ -4,6 +4,8 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -16,6 +18,7 @@ import com.reminder.BaseActivity;
 import com.reminder.DAO.RemindersDB;
 import com.reminder.DAO.objects.Reminder;
 import com.reminder.R;
+import com.reminder.mobile_activities.services.SimpleReceiver;
 
 import java.util.Calendar;
 
@@ -37,7 +40,6 @@ public class SimpleReminderActivity extends BaseActivity {
         setContentView(R.layout.activity_simple_reminders);
         setTitle("Simple reminder");
         db = RemindersDB.getInstance(this);
-        Button done = (Button) findViewById(R.id.button2);
         name = (EditText) findViewById(R.id.simple_reminder_name);
         date = (TextView) findViewById(R.id.reminderDate);
         time = (TextView) findViewById(R.id.reminderTime);
@@ -54,6 +56,7 @@ public class SimpleReminderActivity extends BaseActivity {
         date.setText(selectedDay + "/" + selectedMonth + "/" + selectedYear);
         time.setText(selectedHour + ":" + String.format("%02d\n", selectedMinute));
 
+<<<<<<< HEAD
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,6 +82,8 @@ public class SimpleReminderActivity extends BaseActivity {
             }
         });
 
+=======
+>>>>>>> swipe undo(baci facebookic)
         date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,5 +120,38 @@ public class SimpleReminderActivity extends BaseActivity {
             }
         });
 
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.add(0, R.menu.menu_for_sms, 0, "Schedule call")
+                .setIcon(R.drawable.ic_done)
+                .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        if (selectedCalendar.getTimeInMillis() < currentCalendar.getTimeInMillis())
+                            Toast.makeText(SimpleReminderActivity.this, "Time must be future", Toast.LENGTH_SHORT).show();
+                        else {
+                            boolean normal = true;
+                            if (name.getText().toString().equals("")) {
+                                name.setError("Input name");
+                                normal = false;
+                            }
+                            if (normal) {
+                                Reminder r = new Reminder(name.getText().toString(), comment.getText().toString(), selectedCalendar.getTimeInMillis(), Reminder.SIMPLE);
+                                Intent i = new Intent();
+                                i.putExtra("r", r);
+                                setResult(0, i);
+                                finish();
+                                Toast.makeText(SimpleReminderActivity.this, "Reminder saved", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        return false;
+                    }
+                })
+                .setShowAsAction(
+                        MenuItem.SHOW_AS_ACTION_ALWAYS
+                                | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+
+        return true;
     }
 }
