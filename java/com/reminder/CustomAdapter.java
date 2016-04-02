@@ -1,19 +1,15 @@
 package com.reminder;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.reminder.DAO.objects.CallReminder;
 import com.reminder.DAO.objects.Reminder;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -67,10 +63,10 @@ public class CustomAdapter extends BaseAdapter {
                 h.image.setImageResource(android.R.drawable.ic_lock_idle_alarm);
                 break;
             case Reminder.CALL_REMINDER:
-                h.image.setImageResource(android.R.drawable.ic_menu_call);
+                h.image.setImageResource(R.drawable.call);
                 break;
             case Reminder.SMS_REMINDER:
-                h.image.setImageResource(android.R.drawable.ic_menu_edit);
+                h.image.setImageResource(R.drawable.sms);
                 break;
         }
         h.title.setText(reminder.getName());
