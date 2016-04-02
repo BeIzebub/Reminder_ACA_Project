@@ -2,6 +2,7 @@ package com.reminder;
 
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.annotation.LayoutRes;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -40,6 +41,7 @@ public class BaseActivity extends AppCompatActivity implements
         FrameLayout activityContainer = (FrameLayout) fullLayout.findViewById(R.id.activity_content);
         getLayoutInflater().inflate(layoutResID, activityContainer, true);
 
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         super.setContentView(fullLayout);
 
