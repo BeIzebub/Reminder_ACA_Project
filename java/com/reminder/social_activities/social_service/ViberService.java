@@ -11,7 +11,6 @@ import com.reminder.R;
 
 public class ViberService extends IntentService {
     private String text;
-    private boolean isSent = true;
 
     public ViberService() {
         super(ViberService.class.getName());
