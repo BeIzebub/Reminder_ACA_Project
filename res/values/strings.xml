@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Reminder</string>
+    <string name="app_name">RemindMe beta</string>
     <string name="nav_drawer_opened">Opened</string>
     <string name="nav_drawer_closed">Closed</string>
     <string name="facebook_app_id">702061733267340</string>
