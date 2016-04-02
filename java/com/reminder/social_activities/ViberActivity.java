@@ -115,12 +115,14 @@ public class ViberActivity extends BaseActivity {
 
                             Reminder r = new Reminder(text.getText().toString(), "", selected.getTimeInMillis(), Reminder.VIBER_REMINDER);
                             int id = RemindersDB.getInstance(getApplicationContext()).addReminder(r);
+                            myIntent.putExtra("id", id);
                             PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), id, myIntent, PendingIntent.FLAG_ONE_SHOT);
                             AlarmManager alarmManager = (AlarmManager) getApplication().getSystemService(Context.ALARM_SERVICE);
                             alarmManager.setExact(AlarmManager.RTC_WAKEUP, selected.getTimeInMillis(), pendingIntent);
 
                             Intent i = new Intent();
                             i.putExtra("r", r);
+
                             setResult(0, i);
                             finish();
                         }

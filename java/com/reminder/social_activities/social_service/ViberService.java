@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.WindowManager;
 
+import com.reminder.DAO.RemindersDB;
 import com.reminder.R;
 
 
@@ -34,11 +35,12 @@ public class ViberService extends IntentService {
         }finally {
             createViberNotification();
         }
+        RemindersDB.getInstance(this).deleteReminder(intent.getExtras().getInt("id"));
     }
     public void createViberNotification() {
         Notification notif = new Notification.Builder(this)
                 .setContentTitle("Reminder")
-                .setContentText("Time to sent you Viber message")
+                .setContentText("Time to sent your Viber message")
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .build();
 

@@ -10,6 +10,7 @@ public class ViberReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Intent i = new Intent(context, ViberService.class);
         i.putExtra("text", intent.getExtras().getString("text"));
+        i.putExtra("id", intent.getExtras().getInt("id"));
         context.startService(i);
     }
 }

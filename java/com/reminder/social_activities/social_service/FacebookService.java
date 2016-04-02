@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 
+import com.reminder.DAO.RemindersDB;
 import com.reminder.R;
 
 /**
@@ -39,6 +40,7 @@ public class FacebookService extends IntentService {
                 createFacebookNotificationWithButton();
             }
         }
+        RemindersDB.getInstance(this).deleteReminder(intent.getExtras().getInt("id"));
     }
     public void createFacebookNotification() {
         Notification notif = new Notification.Builder(this)

@@ -12,6 +12,7 @@ public class FacebookReceiver extends BroadcastReceiver{
     public void onReceive(Context context, Intent intent) {
         Intent i = new Intent(context, FacebookService.class);
         i.putExtra("text", intent.getExtras().getString("text"));
+        i.putExtra("id", intent.getExtras().getInt("id"));
         context.startService(i);
     }
 }

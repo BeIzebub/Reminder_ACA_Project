@@ -127,6 +127,7 @@ public class AllFacebookReminders extends BaseActivity {
     private void run(Reminder r, int id) { // wrong?
         Intent myIntent = new Intent(this, FacebookReceiver.class);
         myIntent.putExtra("text", r.getName());
+        myIntent.putExtra("id", id);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, id, myIntent, PendingIntent.FLAG_ONE_SHOT);
 
         AlarmManager alarmManager = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
