@@ -60,7 +60,7 @@ public class CustomAdapter extends BaseAdapter {
 
         switch (reminder.getType()) {
             case Reminder.SIMPLE:
-                h.image.setImageResource(android.R.drawable.ic_lock_idle_alarm);
+                h.image.setImageResource(R.drawable.simple_rem);
                 break;
             case Reminder.CALL_REMINDER:
                 h.image.setImageResource(R.drawable.call);
@@ -70,8 +70,7 @@ public class CustomAdapter extends BaseAdapter {
                 break;
             case Reminder.FACEBOOK_REMINDER:
                 h.image.setImageResource(R.drawable.fb);
-                break;
-        }
+                break;        }
         h.title.setText(reminder.getName());
         c.setTimeInMillis(reminder.getTimeInMillis());
         h.date.setText(c.get(Calendar.DAY_OF_MONTH) + "/" + (c.get(Calendar.MONTH) + 1) + "/" + c.get(Calendar.YEAR));

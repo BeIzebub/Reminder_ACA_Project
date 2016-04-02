@@ -16,9 +16,7 @@ import android.widget.FrameLayout;
 import com.reminder.mobile_activities.AllCallRemindersActivity;
 import com.reminder.mobile_activities.AllSMSRemindersActivity;
 import com.reminder.other_activities.AllSimpleRemindersActivity;
-import com.reminder.other_activities.SimpleReminderActivity;
 import com.reminder.social_activities.AllFacebookReminders;
-import com.reminder.social_activities.GooglePlusActivity;
 import com.reminder.social_activities.MailActivity;
 import com.reminder.social_activities.ViberActivity;
 
@@ -141,11 +139,6 @@ public class BaseActivity extends AppCompatActivity implements
 
             case R.id.viber:
                 startActivity(new Intent(this, ViberActivity.class));
-                finish();
-                return true;
-
-            case R.id.googlePlus :
-                startActivity(new Intent(this, GooglePlusActivity.class));
                 finish();
                 return true;
 

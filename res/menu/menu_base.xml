@@ -37,10 +37,6 @@
             android:icon="@android:drawable/ic_menu_share"
             android:title="Twitter" />
         <item
-            android:id="@+id/googlePlus"
-            android:icon="@android:drawable/ic_menu_share"
-            android:title="Google+" />
-        <item
             android:id="@+id/mail"
             android:icon="@android:drawable/ic_menu_send"
             android:title="Mail" />
