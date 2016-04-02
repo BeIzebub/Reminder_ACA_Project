@@ -1,33 +1,26 @@
 package com.reminder;
 
-import android.graphics.Canvas;
+import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.ColorFilter;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.util.TypedValue;
 import android.view.Display;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
-import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
-import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
-import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 import com.reminder.DAO.RemindersDB;
-import com.reminder.DAO.executors.CallQueries;
-import com.reminder.DAO.objects.CallReminder;
 import com.reminder.DAO.objects.Reminder;
+import com.reminder.mobile_activities.AllCallRemindersActivity;
+import com.reminder.mobile_activities.AllSMSRemindersActivity;
+import com.reminder.other_activities.AllSimpleRemindersActivity;
+import com.reminder.social_activities.AllFacebookReminders;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class HomePageActivity extends BaseActivity {
@@ -36,7 +29,8 @@ public class HomePageActivity extends BaseActivity {
     private SwipeMenuListView listView;
     private CustomAdapter adapter;
     private RemindersDB db;
-    private List<CallReminder> allCalls;
+    private Button newRem, newCall, newSms, newFace;
+    private TextView welcome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +40,49 @@ public class HomePageActivity extends BaseActivity {
         /***    ***/
         db = RemindersDB.getInstance(this);
         listView = (SwipeMenuListView) findViewById(R.id.allReminders);
+        welcome = (TextView) findViewById(R.id.welcome);
+        newRem = (Button) findViewById(R.id.newRem);
+        newCall = (Button) findViewById(R.id.newCallRem);
+        newSms = (Button) findViewById(R.id.newSmsRem);
+        newFace = (Button) findViewById(R.id.newFace);
         init();
+
+        if (!calls.isEmpty()) {
+            listView.setVisibility(View.VISIBLE);
+            welcome.setVisibility(View.GONE);
+            newRem.setVisibility(View.GONE);
+            newCall.setVisibility(View.GONE);
+            newSms.setVisibility(View.GONE);
+            newFace.setVisibility(View.GONE);
+        }
+
+        newRem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomePageActivity.this, AllSimpleRemindersActivity.class));
+            }
+        });
+
+        newCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomePageActivity.this, AllCallRemindersActivity.class));
+            }
+        });
+
+        newSms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomePageActivity.this, AllSMSRemindersActivity.class));
+            }
+        });
+
+        newFace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomePageActivity.this, AllFacebookReminders.class));
+            }
+        });
 
         SwipeMenuCreator creator = new SwipeMenuCreator() {
             @Override
@@ -66,12 +102,10 @@ public class HomePageActivity extends BaseActivity {
         };
 
         listView.setMenuCreator(creator);
-        allCalls = db.getAllCallReminders();
 
         listView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
-                final Reminder r = calls.get(position);
                 db.deleteCallReminder(calls.get(position).getId());
                 init();
                 adapter.notifyDataSetChanged();
@@ -88,5 +122,13 @@ public class HomePageActivity extends BaseActivity {
         calls = db.getAllReminders();
         adapter = new CustomAdapter(this, calls);
         listView.setAdapter(adapter);
+        if (calls.isEmpty()) {
+            listView.setVisibility(View.GONE);
+            welcome.setVisibility(View.VISIBLE);
+            newRem.setVisibility(View.VISIBLE);
+            newCall.setVisibility(View.VISIBLE);
+            newSms.setVisibility(View.VISIBLE);
+            newFace.setVisibility(View.VISIBLE);
+        }
     }
 }
