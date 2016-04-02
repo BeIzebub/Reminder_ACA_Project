@@ -41,7 +41,6 @@ public class MyFacebookActivity extends BaseActivity {
     private EditText text;
     private TextView time;
     private TextView date;
-    private Calendar c;
     private Calendar selected;
     private int selectedDay, selectedMonth, selectedYear, selectedHour, selectedMinute;
 
@@ -57,7 +56,7 @@ public class MyFacebookActivity extends BaseActivity {
 
         db = RemindersDB.getInstance(this);
 
-        text = (EditText) findViewById(R.id.shareText);
+        text = (EditText) findViewById(R.id.text);
         date = (TextView) findViewById(R.id.dateText);
         time = (TextView) findViewById(R.id.timeText);
 

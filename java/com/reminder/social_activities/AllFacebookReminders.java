@@ -21,9 +21,7 @@ import com.reminder.BaseActivity;
 import com.reminder.CustomAdapter;
 import com.reminder.DAO.RemindersDB;
 import com.reminder.DAO.objects.Reminder;
-import com.reminder.DAO.objects.SMSReminder;
 import com.reminder.R;
-import com.reminder.mobile_activities.services.SMSReceiver;
 import com.reminder.social_activities.social_service.FacebookReceiver;
 
 import java.util.List;
@@ -39,6 +37,9 @@ public class AllFacebookReminders extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_facebook_reminders);
+
+        setTitle("Facebook");
+
         db = RemindersDB.getInstance(this);
         listView = (SwipeMenuListView) findViewById(R.id.faceRems);
         init();
