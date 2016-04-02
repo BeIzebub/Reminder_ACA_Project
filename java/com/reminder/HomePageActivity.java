@@ -29,7 +29,7 @@ public class HomePageActivity extends BaseActivity {
     private SwipeMenuListView listView;
     private CustomAdapter adapter;
     private RemindersDB db;
-    private Button newRem, newCall, newSms, newFace;
+    private Button newRem, newCall, newSms, newFace, newVibe;
     private TextView welcome;
 
     @Override
@@ -45,6 +45,7 @@ public class HomePageActivity extends BaseActivity {
         newCall = (Button) findViewById(R.id.newCallRem);
         newSms = (Button) findViewById(R.id.newSmsRem);
         newFace = (Button) findViewById(R.id.newFace);
+        newVibe = (Button) findViewById(R.id.newViber);
         init();
 
         if (!calls.isEmpty()) {
@@ -54,6 +55,7 @@ public class HomePageActivity extends BaseActivity {
             newCall.setVisibility(View.GONE);
             newSms.setVisibility(View.GONE);
             newFace.setVisibility(View.GONE);
+            newVibe.setVisibility(View.GONE);
         }
 
         newRem.setOnClickListener(new View.OnClickListener() {
@@ -129,6 +131,7 @@ public class HomePageActivity extends BaseActivity {
             newCall.setVisibility(View.VISIBLE);
             newSms.setVisibility(View.VISIBLE);
             newFace.setVisibility(View.VISIBLE);
+            newVibe.setVisibility(View.VISIBLE);
         }
     }
 }

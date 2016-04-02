@@ -74,4 +74,16 @@
         android:layout_alignStart="@+id/newSmsRem"
         android:background="#e28f8f" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="schedule a viber message"
+        android:id="@+id/newViber"
+        android:layout_below="@+id/newFace"
+        android:layout_alignStart="@+id/newFace"
+        android:layout_alignEnd="@+id/newFace"
+        android:layout_marginTop="15dp"
+        android:background="#e28f8f"
+        android:textSize="17dp" />
+
 </RelativeLayout>
