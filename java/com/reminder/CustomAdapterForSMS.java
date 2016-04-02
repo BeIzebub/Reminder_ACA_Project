@@ -8,7 +8,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.reminder.DAO.objects.CallReminder;
 import com.reminder.DAO.objects.Reminder;
 import com.reminder.DAO.objects.SMSReminder;
 
@@ -60,7 +59,7 @@ public class CustomAdapterForSMS extends BaseAdapter {
         Reminder reminder = reminders.get(position);
         Calendar c = Calendar.getInstance();
 
-        h.image.setImageResource(R.mipmap.ic_launcher);
+        h.image.setImageResource(R.drawable.sms);
         h.title.setText(reminder.getName());
         c.setTimeInMillis(reminder.getTimeInMillis());
         h.date.setText(c.get(Calendar.DAY_OF_MONTH) + "/" + (c.get(Calendar.MONTH) + 1) + "/" + c.get(Calendar.YEAR));

@@ -59,7 +59,7 @@ public class CustomAdapterForCalls extends BaseAdapter {
         Reminder reminder = reminders.get(position);
         Calendar c = Calendar.getInstance();
 
-        h.image.setImageResource(R.mipmap.ic_launcher);
+        h.image.setImageResource(R.drawable.call);
         h.title.setText(reminder.getName());
         c.setTimeInMillis(reminder.getTimeInMillis());
         h.date.setText(c.get(Calendar.DAY_OF_MONTH) + "/" + (c.get(Calendar.MONTH) + 1) + "/" + c.get(Calendar.YEAR));
