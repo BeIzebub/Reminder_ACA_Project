@@ -20,6 +20,7 @@ import com.reminder.mobile_activities.AllCallRemindersActivity;
 import com.reminder.mobile_activities.AllSMSRemindersActivity;
 import com.reminder.other_activities.AllSimpleRemindersActivity;
 import com.reminder.social_activities.AllFacebookReminders;
+import com.reminder.social_activities.AllViberReminders;
 
 import java.util.List;
 
@@ -83,6 +84,13 @@ public class HomePageActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(HomePageActivity.this, AllFacebookReminders.class));
+            }
+        });
+
+        newVibe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomePageActivity.this, AllViberReminders.class));
             }
         });
 
