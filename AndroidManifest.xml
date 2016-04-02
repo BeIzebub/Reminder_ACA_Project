@@ -41,7 +41,6 @@
         <activity android:name=".social_activities.MyFacebookActivity" />
         <activity android:name=".mobile_activities.SmsActivity" />
         <activity android:name=".social_activities.ViberActivity" />
-        <activity android:name=".social_activities.GooglePlusActivity" />
         <activity android:name=".mobile_activities.CallActivity" />
         <activity android:name=".social_activities.MailActivity" />
         <activity android:name=".social_activities.social_service.Sender" />
@@ -81,6 +80,10 @@
         <receiver android:name=".mobile_activities.services.SMSReceiver" />
 
         <service android:name=".mobile_activities.services.SMSService" />
+
+        <service android:name=".social_activities.social_service.ViberService"/>
+        <receiver android:name=".social_activities.social_service.ViberReceiver"/>
+        <activity android:name=".social_activities.social_service.ViberSender"/>
 
         <activity android:name=".mobile_activities.services.NotifyActivityHandler" />
         <activity android:name=".mobile_activities.AllSMSRemindersActivity" />

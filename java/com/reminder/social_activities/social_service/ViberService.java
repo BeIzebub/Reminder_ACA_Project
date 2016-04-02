@@ -3,8 +3,9 @@ package com.reminder.social_activities.social_service;
 import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
-import android.media.MediaPlayer;
+import android.util.Log;
 
 import com.reminder.R;
 
@@ -18,10 +19,19 @@ public class ViberService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        MediaPlayer mediaPlayer=MediaPlayer.create(getApplicationContext(), R.raw.star_wars);
-        mediaPlayer.start();
 
-        createViberNotification();
+        text = (String) intent.getExtras().get("text");
+        Intent shareIntent = new Intent(ViberService.this, ViberSender.class);
+        shareIntent.putExtra("do_action", "sh");
+        shareIntent.putExtra("text", text);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), shareIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        try {
+            pendingIntent.send();
+        } catch (PendingIntent.CanceledException e) {
+            Log.e("VIBER", "Viber error");
+        }finally {
+            createViberNotification();
+        }
     }
     public void createViberNotification() {
         Notification notif = new Notification.Builder(this)
