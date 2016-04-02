@@ -68,6 +68,9 @@ public class CustomAdapter extends BaseAdapter {
             case Reminder.SMS_REMINDER:
                 h.image.setImageResource(R.drawable.sms);
                 break;
+            case Reminder.FACEBOOK_REMINDER:
+                h.image.setImageResource(R.drawable.fb);
+                break;
         }
         h.title.setText(reminder.getName());
         c.setTimeInMillis(reminder.getTimeInMillis());
