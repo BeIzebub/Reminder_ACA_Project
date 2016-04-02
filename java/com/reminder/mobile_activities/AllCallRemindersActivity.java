@@ -136,6 +136,7 @@ public class AllCallRemindersActivity extends BaseActivity {
     private void run(CallReminder r, int id) {
         Intent myIntent = new Intent(this, CallReceiver.class);
         myIntent.putExtra("n", r.getReceiver());
+        myIntent.putExtra("id", id);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this,  id, myIntent, PendingIntent.FLAG_ONE_SHOT);
 
         AlarmManager alarmManager = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);

@@ -188,10 +188,12 @@ public class SmsActivity extends BaseActivity {
                     Intent myIntent = new Intent(getApplicationContext(), SMSReceiver.class);
                     myIntent.putExtra("phone", phone);
                     myIntent.putExtra("text", text);
+
                     if(! commentEdit.getText().toString().matches("")) {
                         myIntent.putExtra("comment", commentEdit.getText().toString());
                     }
                     int id = RemindersDB.getInstance(this).addSmsReminder(r);
+                    myIntent.putExtra("id", id);
                     PendingIntent pendingIntent;
                     pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), id, myIntent, PendingIntent.FLAG_ONE_SHOT);
                     AlarmManager alarmManager = (AlarmManager) getApplication().getSystemService(Context.ALARM_SERVICE);

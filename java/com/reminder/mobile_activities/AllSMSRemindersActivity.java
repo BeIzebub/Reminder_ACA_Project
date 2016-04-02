@@ -148,6 +148,7 @@ public class AllSMSRemindersActivity extends BaseActivity {
         Intent myIntent = new Intent(this, SMSReceiver.class);
         myIntent.putExtra("phone", r.getReceiver());
         myIntent.putExtra("text", r.getText());
+        myIntent.putExtra("id", id);
         if(! r.getComment().matches("")) {
             myIntent.putExtra("comment", r.getComment());
         }

@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
 
+import com.reminder.DAO.RemindersDB;
 import com.reminder.R;
 import com.reminder.mobile_activities.CallActivity;
 
@@ -29,6 +30,7 @@ public class CallService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         number = intent.getExtras().getString("n");
         createNotification(number);
+        RemindersDB.getInstance(this).deleteCallReminder(intent.getExtras().getInt("id"));
     }
 
     public void createNotification(String s) {
