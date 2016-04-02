@@ -14,4 +14,5 @@ public interface ReminderFunctionality {
     List<Reminder> getAllReminders();
     List<Reminder> getAllSimpleReminders();
     List<Reminder> getAllFacebookReminders();
+    List<Reminder> getAllViberReminders();
 }

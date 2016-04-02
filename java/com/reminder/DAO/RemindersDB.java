@@ -116,6 +116,14 @@ public class RemindersDB implements ReminderFunctionality, CallFunctionality, SM
     }
 
     @Override
+    public List<Reminder> getAllViberReminders() {
+        rq.open();
+        List<Reminder> r = rq.getAllViberReminders();
+        rq.close();
+        return r;
+    }
+
+    @Override
     public int addSmsReminder(SMSReminder r) {
         sq.open();
         int id = sq.addSmsReminder(r);

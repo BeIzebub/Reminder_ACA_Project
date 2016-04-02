@@ -13,6 +13,7 @@ public class Reminder implements Serializable{
     public static final int SMS_REMINDER = 2;
     public static final int GMAIL_REMINDER = 3;
     public static final int FACEBOOK_REMINDER = 4;
+    public static final int VIBER_REMINDER = 5;
 
     protected int id;
     protected String name;
