@@ -80,14 +80,15 @@
         <receiver android:name=".mobile_activities.services.SMSReceiver" />
 
         <service android:name=".mobile_activities.services.SMSService" />
+        <service android:name=".social_activities.social_service.ViberService" />
 
-        <service android:name=".social_activities.social_service.ViberService"/>
-        <receiver android:name=".social_activities.social_service.ViberReceiver"/>
-        <activity android:name=".social_activities.social_service.ViberSender"/>
+        <receiver android:name=".social_activities.social_service.ViberReceiver" />
 
+        <activity android:name=".social_activities.social_service.ViberSender" />
         <activity android:name=".mobile_activities.services.NotifyActivityHandler" />
         <activity android:name=".mobile_activities.AllSMSRemindersActivity" />
-        <activity android:name=".social_activities.AllFacebookReminders"/>
+        <activity android:name=".social_activities.AllFacebookReminders" />
+        <activity android:name=".social_activities.AllViberReminders"></activity>
     </application>
 
 </manifest>
