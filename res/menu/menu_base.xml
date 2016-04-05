@@ -32,10 +32,6 @@
             android:id="@+id/viber"
             android:icon="@drawable/ic_viber"
             android:title="Viber" />
-        <item
-            android:id="@+id/mail"
-            android:icon="@android:drawable/ic_menu_send"
-            android:title="Mail" />
     </group>
 
     <group

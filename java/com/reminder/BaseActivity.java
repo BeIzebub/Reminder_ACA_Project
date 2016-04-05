@@ -19,8 +19,6 @@ import com.reminder.mobile_activities.AllSMSRemindersActivity;
 import com.reminder.other_activities.AllSimpleRemindersActivity;
 import com.reminder.social_activities.AllFacebookReminders;
 import com.reminder.social_activities.AllViberReminders;
-import com.reminder.social_activities.MailActivity;
-import com.reminder.social_activities.ViberActivity;
 
 
 public class BaseActivity extends AppCompatActivity implements
@@ -112,11 +110,6 @@ public class BaseActivity extends AppCompatActivity implements
         {
             case R.id.all_reminders:
                 startActivity(new Intent(this, HomePageActivity.class));
-                finish();
-                return true;
-
-            case R.id.mail:
-                startActivity(new Intent(this, MailActivity.class));
                 finish();
                 return true;
 
