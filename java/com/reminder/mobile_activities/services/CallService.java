@@ -55,7 +55,7 @@ public class CallService extends IntentService {
         noti.defaults |= Notification.DEFAULT_SOUND;
         noti.defaults |= Notification.DEFAULT_VIBRATE;
 
-        notificationManager.notify(0, noti);
+        notificationManager.notify((int) System.currentTimeMillis(), noti);
 
     }
 }

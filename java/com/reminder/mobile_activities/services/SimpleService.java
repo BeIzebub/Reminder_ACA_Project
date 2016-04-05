@@ -38,6 +38,6 @@ public class SimpleService extends IntentService {
         notif.ledOffMS = 300;
         notif.defaults |= Notification.DEFAULT_SOUND;
         notif.defaults |= Notification.DEFAULT_VIBRATE;
-        notificationManager.notify(0, notif);
+        notificationManager.notify((int) System.currentTimeMillis(), notif);
     }
 }

@@ -140,7 +140,6 @@ public class BaseActivity extends AppCompatActivity implements
 
             case R.id.settings :
                 startActivity(new Intent(this, Settings.class));
-                finish();
                 return true;
         }
 

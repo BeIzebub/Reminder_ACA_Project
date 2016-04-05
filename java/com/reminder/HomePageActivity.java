@@ -1,5 +1,8 @@
 package com.reminder;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -16,17 +19,23 @@ import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.reminder.DAO.RemindersDB;
 import com.reminder.DAO.objects.Reminder;
+import com.reminder.DAO.objects.SMSReminder;
 import com.reminder.mobile_activities.AllCallRemindersActivity;
 import com.reminder.mobile_activities.AllSMSRemindersActivity;
+import com.reminder.mobile_activities.services.CallReceiver;
+import com.reminder.mobile_activities.services.SMSReceiver;
+import com.reminder.mobile_activities.services.SimpleReceiver;
 import com.reminder.other_activities.AllSimpleRemindersActivity;
 import com.reminder.social_activities.AllFacebookReminders;
 import com.reminder.social_activities.AllViberReminders;
+import com.reminder.social_activities.social_service.FacebookReceiver;
+import com.reminder.social_activities.social_service.ViberReceiver;
 
 import java.util.List;
 
 public class HomePageActivity extends BaseActivity {
 
-    private List<Reminder> calls;
+    private List<Reminder> reminders;
     private SwipeMenuListView listView;
     private CustomAdapter adapter;
     private RemindersDB db;
@@ -49,7 +58,7 @@ public class HomePageActivity extends BaseActivity {
         newVibe = (Button) findViewById(R.id.newViber);
         init();
 
-        if (!calls.isEmpty()) {
+        if (!reminders.isEmpty()) {
             listView.setVisibility(View.VISIBLE);
             welcome.setVisibility(View.GONE);
             newRem.setVisibility(View.GONE);
@@ -116,7 +125,65 @@ public class HomePageActivity extends BaseActivity {
         listView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
-                db.deleteCallReminder(calls.get(position).getId());
+                switch (reminders.get(position).getType()) {
+                    case Reminder.SIMPLE:
+                        Intent myIntent = new Intent(HomePageActivity.this, SimpleReceiver.class);
+                        boolean alarmUp = (PendingIntent.getBroadcast(HomePageActivity.this, reminders.get(position).getId(),
+                                new Intent(HomePageActivity.this, SimpleReceiver.class),
+                                PendingIntent.FLAG_ONE_SHOT) != null);
+                        if (alarmUp)
+                        {
+                            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), reminders.get(position).getId(), myIntent,PendingIntent.FLAG_ONE_SHOT);
+                            AlarmManager alarmManager = (AlarmManager) getApplication().getSystemService(Context.ALARM_SERVICE);
+                            alarmManager.cancel(pendingIntent);
+                        }
+                    case Reminder.CALL_REMINDER:
+                        myIntent = new Intent(HomePageActivity.this, CallReceiver.class);
+                        alarmUp = (PendingIntent.getBroadcast(HomePageActivity.this, reminders.get(position).getId(),
+                                new Intent(HomePageActivity.this, CallReceiver.class),
+                                PendingIntent.FLAG_ONE_SHOT) != null);
+                        if (alarmUp)
+                        {
+                            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), reminders.get(position).getId(), myIntent,PendingIntent.FLAG_ONE_SHOT);
+                            AlarmManager alarmManager = (AlarmManager) getApplication().getSystemService(Context.ALARM_SERVICE);
+                            alarmManager.cancel(pendingIntent);
+                        }
+                    case Reminder.SMS_REMINDER:
+                        myIntent = new Intent(HomePageActivity.this, SMSReceiver.class);
+                        alarmUp = (PendingIntent.getBroadcast(HomePageActivity.this, reminders.get(position).getId(),
+                                new Intent(HomePageActivity.this, SMSReceiver.class),
+                                PendingIntent.FLAG_ONE_SHOT) != null);
+                        if (alarmUp)
+                        {
+                            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), reminders.get(position).getId(), myIntent,PendingIntent.FLAG_ONE_SHOT);
+                            AlarmManager alarmManager = (AlarmManager) getApplication().getSystemService(Context.ALARM_SERVICE);
+                            alarmManager.cancel(pendingIntent);
+                        }
+                    case Reminder.FACEBOOK_REMINDER:
+                        myIntent = new Intent(HomePageActivity.this, FacebookReceiver.class);
+                        alarmUp = (PendingIntent.getBroadcast(HomePageActivity.this, reminders.get(position).getId(),
+                                new Intent(HomePageActivity.this, FacebookReceiver.class),
+                                PendingIntent.FLAG_ONE_SHOT) != null);
+                        if (alarmUp)
+                        {
+                            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), reminders.get(position).getId(), myIntent,PendingIntent.FLAG_ONE_SHOT);
+                            AlarmManager alarmManager = (AlarmManager) getApplication().getSystemService(Context.ALARM_SERVICE);
+                            alarmManager.cancel(pendingIntent);
+                        }
+                    case Reminder.VIBER_REMINDER:
+                        myIntent = new Intent(HomePageActivity.this, ViberReceiver.class);
+                        alarmUp = (PendingIntent.getBroadcast(HomePageActivity.this, reminders.get(position).getId(),
+                                new Intent(HomePageActivity.this, ViberReceiver.class),
+                                PendingIntent.FLAG_ONE_SHOT) != null);
+                        if (alarmUp)
+                        {
+                            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), reminders.get(position).getId(), myIntent,PendingIntent.FLAG_ONE_SHOT);
+                            AlarmManager alarmManager = (AlarmManager) getApplication().getSystemService(Context.ALARM_SERVICE);
+                            alarmManager.cancel(pendingIntent);
+                        }
+
+                }
+                db.deleteCallReminder(reminders.get(position).getId());
                 init();
                 adapter.notifyDataSetChanged();
                 final Snackbar snackbar = Snackbar.make(listView, "Reminder deleted", Snackbar.LENGTH_LONG);
@@ -129,10 +196,10 @@ public class HomePageActivity extends BaseActivity {
     }
 
     private void init() {
-        calls = db.getAllReminders();
-        adapter = new CustomAdapter(this, calls);
+        reminders = db.getAllReminders();
+        adapter = new CustomAdapter(this, reminders);
         listView.setAdapter(adapter);
-        if (calls.isEmpty()) {
+        if (reminders.isEmpty()) {
             listView.setVisibility(View.GONE);
             welcome.setVisibility(View.VISIBLE);
             newRem.setVisibility(View.VISIBLE);
